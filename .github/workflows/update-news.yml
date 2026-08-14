@@ -9,6 +9,11 @@ on:
 permissions:
   contents: write
 
+# 동시 실행 방지 (수동 실행과 스케줄 실행이 겹쳐도 충돌하지 않게)
+concurrency:
+  group: update-news
+  cancel-in-progress: false
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -35,5 +40,7 @@ jobs:
             echo "No changes."
           else
             git commit -m "chore: update hub news ($(date +'%Y-%m-%d'))"
+            # 실행 중 리포에 새 커밋이 들어왔어도 충돌 없이 푸시되도록
+            git pull --rebase origin main
             git push
           fi
