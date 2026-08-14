@@ -9,16 +9,5 @@
     "badges": ["프롬프트 엔지니어링"],
     "title": "Gemini 할루시네이션 저감 튜토리얼",
     "desc": "AI가 사실과 다른 답변을 만들어내는 현상을 줄이는 실전 프롬프트 기법을 정리했습니다."
-  },
-  {
-    "file": "AI_Tip/sovereign-ai.html",
-    "new": true,
-    "thumb": "doc",
-    "kicker": "REPORT",
-    "thumbTitle": "소버린 AI\n부상 배경",
-    "cat": "Trend",
-    "badges": ["소버린AI", "트렌드"],
-    "title": "AI 모델이 '무기'가 된 날, 부상하는 소버린 AI",
-    "desc": "Mythos·Fable 5 수출 통제 사태가 던진 질문과 글로벌 소버린 AI 동향을 정리했습니다."
   }
 ]
