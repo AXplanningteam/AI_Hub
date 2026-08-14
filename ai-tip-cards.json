@@ -12,4 +12,16 @@
     "title": "Gemini 할루시네이션 저감 튜토리얼",
     "desc": "AI가 사실과 다른 답변을 만들어내는 현상을 줄이는 실전 프롬프트 기법을 정리했습니다."
   }
+
+   {
+    "slug": "sovereign-ai",
+    "new": true,
+    "thumb": "doc",
+    "kicker": "REPORT",
+    "thumbTitle": "소버린 AI\test",
+    "cat": "Trend",
+    "badges": ["소버린AI", "트렌드"],
+    "title": "test",
+    "desc": "test"
+  }
 ]
