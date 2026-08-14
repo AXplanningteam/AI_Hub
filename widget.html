@@ -113,12 +113,12 @@
   }
   .news-title-inner { display: inline-block; }
   .news-title-inner.roll {
-    animation: rollTitle var(--dur, 8s) linear infinite alternate;
+    animation: rollTitle var(--dur, 8s) linear infinite;
   }
-  /* 양 끝에서 잠깐 멈췄다가 반대 방향으로 */
+  /* 처음에 잠깐 멈췄다가 왼쪽으로 끝까지 흐른 뒤, 처음으로 돌아가 반복 */
   @keyframes rollTitle {
-    0%, 12%   { transform: translateX(0); }
-    88%, 100% { transform: translateX(var(--dist, 0px)); }
+    0%, 15%   { transform: translateX(0); }
+    85%, 100% { transform: translateX(var(--dist, 0px)); }
   }
   @media (prefers-reduced-motion: reduce) {
     .news-title-inner.roll { animation: none; }
@@ -252,6 +252,14 @@
     return d.innerHTML;
   }
 
+  // 데이터에 남아 있을 수 있는 HTML 엔티티(&#x27; 등)를 일반 문자로 복원
+  function unescapeEntities(s) {
+    if (!s || s.indexOf("&") === -1) return s;
+    var d = document.createElement("textarea");
+    d.innerHTML = s;
+    return d.value;
+  }
+
   function render(items) {
     if (!items.length) {
       box.innerHTML = '<p class="news-empty">등록된 소식이 없습니다.</p>';
@@ -262,7 +270,7 @@
       var isNew = it.date && (now - new Date(it.date).getTime()) < NEW_BADGE_DAYS * 86400000;
       return '<a class="news-item" href="' + esc(it.url || "#") + '" target="_blank" rel="noopener">'
         + (isNew ? '<span class="news-badge">N</span>' : "")
-        + '<span class="news-title"><span class="news-title-inner">' + esc(it.title || "") + "</span></span>"
+        + '<span class="news-title"><span class="news-title-inner">' + esc(unescapeEntities(it.title || "")) + "</span></span>"
         + "</a>";
     }).join("");
     startRolling();

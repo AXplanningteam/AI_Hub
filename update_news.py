@@ -3,6 +3,7 @@
 daoukiwoom.ai sitemap.xml에서 최신 콘텐츠를 읽어 hub-news.json을 갱신하는 스크립트.
 GitHub Actions에서 매일 실행됨. 표준 라이브러리만 사용 (별도 설치 불필요).
 """
+import html as html_lib
 import json
 import re
 import sys
@@ -72,7 +73,7 @@ def fetch_page_title(url):
         m = re.search(r"<title[^>]*>([^<]+)</title>", html)
     if not m:
         return None
-    title = m.group(1).strip()
+    title = html_lib.unescape(m.group(1)).strip()
     # "제목 | DAOUKIWOOM AI HUB" 같은 사이트명 꼬리 제거
     title = re.split(r"\s*[|\u2013\u2014-]\s*DAOUKIWOOM", title, flags=re.I)[0].strip()
     return title or None
