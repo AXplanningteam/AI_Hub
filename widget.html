@@ -90,13 +90,17 @@
   .news-item + .news-item { border-top: 1px solid #F0F2F4; }
   .news-badge {
     flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-size: 10px;
     font-weight: 700;
     color: #FFFFFF;
     background: var(--red);
-    border-radius: 999px;
-    padding: 3px 9px;
-    letter-spacing: 0.04em;
+    border-radius: 50%;
+    line-height: 1;
   }
   .news-title {
     flex: 1;
@@ -105,8 +109,19 @@
     font-weight: 700;
     color: var(--ink);
     overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
+  }
+  .news-title-inner { display: inline-block; }
+  .news-title-inner.roll {
+    animation: rollTitle var(--dur, 8s) linear infinite alternate;
+  }
+  /* 양 끝에서 잠깐 멈췄다가 반대 방향으로 */
+  @keyframes rollTitle {
+    0%, 12%   { transform: translateX(0); }
+    88%, 100% { transform: translateX(var(--dist, 0px)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .news-title-inner.roll { animation: none; }
   }
   .news-item:hover .news-title { color: #0089A0; }
   .news-empty {
@@ -245,12 +260,30 @@
     var now = Date.now();
     box.innerHTML = items.map(function (it) {
       var isNew = it.date && (now - new Date(it.date).getTime()) < NEW_BADGE_DAYS * 86400000;
-      var label = it.category ? "[" + it.category + "] " : "";
       return '<a class="news-item" href="' + esc(it.url || "#") + '" target="_blank" rel="noopener">'
-        + (isNew ? '<span class="news-badge">NEW</span>' : "")
-        + '<span class="news-title">' + esc(label + (it.title || "")) + "</span>"
+        + (isNew ? '<span class="news-badge">N</span>' : "")
+        + '<span class="news-title"><span class="news-title-inner">' + esc(it.title || "") + "</span></span>"
         + "</a>";
     }).join("");
+    startRolling();
+  }
+
+  // 영역보다 긴 제목만 좌우 롤링
+  function startRolling() {
+    requestAnimationFrame(function () {
+      var titles = box.querySelectorAll(".news-title");
+      for (var i = 0; i < titles.length; i++) {
+        var outer = titles[i];
+        var inner = outer.querySelector(".news-title-inner");
+        var overflow = inner.scrollWidth - outer.clientWidth;
+        if (overflow > 4) {
+          inner.style.setProperty("--dist", -(overflow + 8) + "px");
+          // 넘친 길이에 비례한 속도 (30px/s 내외), 최소 6초
+          inner.style.setProperty("--dur", Math.max(6, overflow / 30 + 4) + "s");
+          inner.classList.add("roll");
+        }
+      }
+    });
   }
 
   fetch(NEWS_JSON_URL, { cache: "no-store" })
