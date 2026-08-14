@@ -16,6 +16,12 @@ OUTPUT_FILE = "hub-news.json"
 MAX_ITEMS = 8          # JSON에 담을 최대 글 수 (위젯은 이 중 5개 표시)
 FETCH_TITLES = True    # 각 글 페이지에서 정확한 제목(og:title)을 가져올지 여부
 
+# AI 활용팁 자료: 이 리포 안의 폴더(폴더명/index.html)로 올라오므로 리포를 직접 스캔
+PAGES_BASE = "https://axplanningteam.github.io/AI_Hub/"
+TIP_CATEGORY = "활용팁"
+# 자료 폴더가 아닌 폴더 (스캔 제외)
+SKIP_DIRS = {".github", ".git", "scripts"}
+
 # 위젯뿐 아니라 JSON 단계에서도 제외할 카테고리/경로 키워드
 EXCLUDE_KEYWORDS = ["아카데미", "academy"]
 
@@ -66,6 +72,11 @@ def fetch_page_title(url):
         html = fetch(url).decode("utf-8", errors="ignore")
     except Exception:
         return None
+    return extract_title_from_html(html)
+
+
+def extract_title_from_html(html):
+    """HTML 문자열에서 og:title 또는 <title> 추출."""
     m = re.search(r'<meta[^>]+property=["\']og:title["\'][^>]+content=["\']([^"\']+)["\']', html)
     if not m:
         m = re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:title["\']', html)
@@ -74,9 +85,50 @@ def fetch_page_title(url):
     if not m:
         return None
     title = html_lib.unescape(m.group(1)).strip()
-    # "제목 | DAOUKIWOOM AI HUB" 같은 사이트명 꼬리 제거
     title = re.split(r"\s*[|\u2013\u2014-]\s*DAOUKIWOOM", title, flags=re.I)[0].strip()
     return title or None
+
+
+def git_first_commit_date(path):
+    """해당 경로가 처음 등록된 커밋 날짜(ISO)를 반환. 실패 시 빈 문자열.
+    최초 커밋 기준이라 이후 오타 수정 등으로는 날짜가 안 바뀜."""
+    import subprocess
+    try:
+        out = subprocess.run(
+            ["git", "log", "--reverse", "--format=%cI", "--", path],
+            capture_output=True, text=True, timeout=20,
+        )
+        lines = out.stdout.strip().splitlines()
+        return lines[0] if lines else ""
+    except Exception:
+        return ""
+
+
+def get_tip_items():
+    """리포 최상위 폴더 중 index.html이 있는 폴더 = AI 활용팁 자료."""
+    import os
+    items = []
+    for name in sorted(os.listdir(".")):
+        if name in SKIP_DIRS or name.startswith(".") or not os.path.isdir(name):
+            continue
+        index_path = os.path.join(name, "index.html")
+        if not os.path.isfile(index_path):
+            continue
+        try:
+            with open(index_path, encoding="utf-8", errors="ignore") as f:
+                title = extract_title_from_html(f.read())
+        except Exception:
+            title = None
+        date = git_first_commit_date(name)
+        items.append({
+            "category": TIP_CATEGORY,
+            "title": f"[{TIP_CATEGORY}] " + (title or name.replace("-", " ")),
+            "url": PAGES_BASE + name + "/",
+            "date": date[:10] if date else "",
+            "_sort": date or "",
+        })
+        print(f"tip: {items[-1]['title']} ({items[-1]['date']})")
+    return items
 
 
 def is_excluded(category, url):
@@ -93,22 +145,34 @@ def main():
     # 최신순 정렬 (lastmod 없는 항목은 뒤로)
     entries.sort(key=lambda e: e[1], reverse=True)
 
-    items = []
+    # 1) 허브 사이트 글 (sitemap 기준, 위젯 표시분 이상만 수집)
+    site_items = []
     for url, lastmod in entries:
-        if len(items) >= MAX_ITEMS:
+        if len(site_items) >= MAX_ITEMS:
             break
         category, rough_title = slug_info(url)
         if is_excluded(category, url):
             print(f"skip (excluded): {url}")
             continue
         title = fetch_page_title(url) if FETCH_TITLES else None
-        items.append({
+        site_items.append({
             "category": category,
             "title": title or rough_title,
             "url": url,
             "date": lastmod[:10] if lastmod else "",
+            "_sort": lastmod or "",
         })
-        print(f"add: [{category}] {items[-1]['title']} ({items[-1]['date']})")
+        print(f"site: [{category}] {site_items[-1]['title']} ({site_items[-1]['date']})")
+
+    # 2) AI 활용팁 자료 (리포 폴더 스캔)
+    tip_items = get_tip_items()
+
+    # 3) 병합 후 최신순 상위 N개
+    items = site_items + tip_items
+    items.sort(key=lambda it: it["_sort"], reverse=True)
+    items = items[:MAX_ITEMS]
+    for it in items:
+        it.pop("_sort", None)
 
     from datetime import datetime, timezone, timedelta
     kst = timezone(timedelta(hours=9))
