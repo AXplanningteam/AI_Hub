@@ -38,18 +38,20 @@
 
   /* ── 배경 장식 ── */
   .deco { position: absolute; pointer-events: none; z-index: 0; }
+  /* 캐릭터 구역 안 장식은 소식 패널·캐릭터보다 뒤로 */
+  .hub-stage .deco { z-index: -1; }
   /* 캐릭터 양옆 (hub-stage 기준) */
   .deco-arrow {
     left: -6px;
-    top: 50%;
-    transform: translateY(-60%) rotate(-10deg);
+    top: 6%;                /* 캐릭터 머리 높이 근처로 */
+    transform: rotate(-10deg);
     width: 58px;
     opacity: 0.65;
   }
   .deco-gyro {
-    right: -14px;
-    top: 50%;
-    transform: translateY(-38%) rotate(14deg);
+    right: -16px;
+    bottom: -42px;          /* 캐릭터 아래, 소식 패널 뒤로 살짝 겹치게 */
+    transform: rotate(14deg);
     width: 84px;
     opacity: 0.6;
   }
@@ -141,7 +143,7 @@
   }
   .news-title-inner {
     display: inline-flex;
-    gap: 36px;              /* 반복되는 제목 사이 간격 */
+    gap: 18px;              /* 반복되는 제목 사이 간격 */
     white-space: nowrap;
   }
   .news-title-inner.roll {
@@ -311,7 +313,7 @@
   }
 
   // 영역보다 긴 제목만 캐러셀(티커) 롤링
-  var TICKER_GAP = 36;   // CSS의 gap과 동일하게
+  var TICKER_GAP = 18;   // CSS의 gap과 동일하게
   var TICKER_SPEED = 30; // px/초
 
   function startRolling() {
