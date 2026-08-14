@@ -105,29 +105,36 @@ def git_first_commit_date(path):
 
 
 def get_tip_items():
-    """리포 최상위 폴더 중 index.html이 있는 폴더 = AI 활용팁 자료."""
+    """리포 안에서 index.html을 가진 폴더 = AI 활용팁 자료.
+    AI_Tip/자료명/index.html 같은 중첩 구조를 포함해 재귀적으로 탐색."""
     import os
     items = []
-    for name in sorted(os.listdir(".")):
-        if name in SKIP_DIRS or name.startswith(".") or not os.path.isdir(name):
+    for dirpath, dirnames, filenames in os.walk("."):
+        # 숨김 폴더·시스템 폴더는 탐색에서 제외
+        dirnames[:] = sorted(
+            d for d in dirnames if not d.startswith(".") and d not in SKIP_DIRS
+        )
+        if "index.html" not in filenames:
             continue
-        index_path = os.path.join(name, "index.html")
-        if not os.path.isfile(index_path):
-            continue
+        rel = os.path.relpath(dirpath, ".").replace(os.sep, "/")
+        if rel == ".":
+            continue  # 리포 루트의 index.html은 자료가 아님
+        index_path = os.path.join(dirpath, "index.html")
         try:
             with open(index_path, encoding="utf-8", errors="ignore") as f:
                 title = extract_title_from_html(f.read())
         except Exception:
             title = None
-        date = git_first_commit_date(name)
+        date = git_first_commit_date(rel)
+        folder_name = rel.rsplit("/", 1)[-1]
         items.append({
             "category": TIP_CATEGORY,
-            "title": f"[{TIP_CATEGORY}] " + (title or name.replace("-", " ")),
-            "url": PAGES_BASE + name + "/",
+            "title": f"[{TIP_CATEGORY}] " + (title or folder_name.replace("-", " ")),
+            "url": PAGES_BASE + rel + "/",
             "date": date[:10] if date else "",
             "_sort": date or "",
         })
-        print(f"tip: {items[-1]['title']} ({items[-1]['date']})")
+        print(f"tip: {items[-1]['title']} -> {items[-1]['url']}")
     return items
 
 
