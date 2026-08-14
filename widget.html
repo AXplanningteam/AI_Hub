@@ -118,6 +118,26 @@
     min-width: 0;
   }
   .news-item + .news-item { border-top: 1px solid #F0F2F4; }
+  /* 마우스오버 즉시 뜨는 풀 제목 툴팁 */
+  .news-item { position: relative; }
+  .news-item:hover::after {
+    content: attr(data-title);
+    position: absolute;
+    left: 4px;
+    right: 4px;
+    bottom: calc(100% + 6px);
+    z-index: 5;
+    background: rgba(23, 40, 44, 0.96);
+    color: #FFFFFF;
+    font-size: 11.5px;
+    font-weight: 500;
+    line-height: 1.5;
+    padding: 8px 11px;
+    border-radius: 8px;
+    white-space: normal;
+    word-break: keep-all;
+    pointer-events: none;
+  }
   .news-badge {
     flex-shrink: 0;
     width: 16px;
@@ -152,6 +172,10 @@
   }
   /* 마우스를 올리면 롤링 일시정지 (툴팁 읽는 동안) */
   .news-item:hover .news-title-inner.roll {
+    animation-play-state: paused;
+  }
+  /* 한 바퀴 완료 후 쉬는 동안 일시정지 */
+  .news-title-inner.pause-loop {
     animation-play-state: paused;
   }
   /* 캐러셀(뉴스 티커): 왼쪽으로 끊김 없이 무한 순환 */
@@ -310,7 +334,7 @@
     box.innerHTML = items.map(function (it) {
       var isNew = it.date && (now - new Date(it.date).getTime()) < NEW_BADGE_DAYS * 86400000;
       var fullTitle = esc(unescapeEntities(it.title || ""));
-      return '<a class="news-item" href="' + esc(it.url || "#") + '" title="' + fullTitle + '" target="_blank" rel="noopener">'
+      return '<a class="news-item" href="' + esc(it.url || "#") + '" data-title="' + fullTitle + '" target="_blank" rel="noopener">'
         + (isNew ? '<span class="news-badge">N</span>' : "")
         + '<span class="news-title"><span class="news-title-inner"><span>' + esc(unescapeEntities(it.title || "")) + "</span></span></span>"
         + "</a>";
@@ -319,8 +343,9 @@
   }
 
   // 영역보다 긴 제목만 캐러셀(티커) 롤링
-  var TICKER_GAP = 18;   // CSS의 gap과 동일하게
-  var TICKER_SPEED = 24; // px/초
+  var TICKER_GAP = 18;      // CSS의 gap과 동일하게
+  var TICKER_SPEED = 24;    // px/초
+  var LOOP_REST_MS = 10000; // 한 바퀴 후 쉬는 시간(ms)
 
   function startRolling() {
     requestAnimationFrame(function () {
@@ -342,6 +367,13 @@
         inner.style.setProperty("--dist", -loopW + "px");
         inner.style.setProperty("--dur", (loopW / TICKER_SPEED) + "s");
         inner.classList.add("roll");
+
+        // 한 바퀴 끝날 때마다 10초 쉬었다가 다시 롤링
+        inner.addEventListener("animationiteration", function (e) {
+          var el = e.target;
+          el.classList.add("pause-loop");
+          setTimeout(function () { el.classList.remove("pause-loop"); }, LOOP_REST_MS);
+        });
       }
     });
   }
