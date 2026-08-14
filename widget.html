@@ -148,6 +148,11 @@
   }
   .news-title-inner.roll {
     animation: tickerRoll var(--dur, 10s) linear infinite;
+    animation-delay: 10s;   /* 위젯 로딩 후 10초 뒤 롤링 시작 */
+  }
+  /* 마우스를 올리면 롤링 일시정지 (툴팁 읽는 동안) */
+  .news-item:hover .news-title-inner.roll {
+    animation-play-state: paused;
   }
   /* 캐러셀(뉴스 티커): 왼쪽으로 끊김 없이 무한 순환 */
   @keyframes tickerRoll {
@@ -304,7 +309,8 @@
     var now = Date.now();
     box.innerHTML = items.map(function (it) {
       var isNew = it.date && (now - new Date(it.date).getTime()) < NEW_BADGE_DAYS * 86400000;
-      return '<a class="news-item" href="' + esc(it.url || "#") + '" target="_blank" rel="noopener">'
+      var fullTitle = esc(unescapeEntities(it.title || ""));
+      return '<a class="news-item" href="' + esc(it.url || "#") + '" title="' + fullTitle + '" target="_blank" rel="noopener">'
         + (isNew ? '<span class="news-badge">N</span>' : "")
         + '<span class="news-title"><span class="news-title-inner"><span>' + esc(unescapeEntities(it.title || "")) + "</span></span></span>"
         + "</a>";
@@ -314,7 +320,7 @@
 
   // 영역보다 긴 제목만 캐러셀(티커) 롤링
   var TICKER_GAP = 18;   // CSS의 gap과 동일하게
-  var TICKER_SPEED = 30; // px/초
+  var TICKER_SPEED = 24; // px/초
 
   function startRolling() {
     requestAnimationFrame(function () {
