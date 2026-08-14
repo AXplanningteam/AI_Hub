@@ -1,53 +1,53 @@
 {
-  "updated": "2026-08-14T15:50:16+09:00",
+  "updated": "2026-08-14T17:06:18+09:00",
   "items": [
+    {
+      "category": "활용팁",
+      "title": "[활용팁] AI 인사이트 · 소버린 AI",
+      "url": "https://axplanningteam.github.io/AI_Hub/AI_Tip/test.html?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
+      "date": "2026-08-14"
+    },
+    {
+      "category": "활용팁",
+      "title": "[활용팁] Gemini 할루시네이션 저감 튜토리얼 — 체험형",
+      "url": "https://axplanningteam.github.io/AI_Hub/AI_Tip/gemini-hallucination.html?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
+      "date": "2026-08-14"
+    },
     {
       "category": "리포트",
       "title": "[리포트] 2026년 7월호 | 실리적 AI 전환: 맞춤 서비스와 리스크 방어",
-      "url": "https://daoukiwoom.ai/contents/%eb%a6%ac%ed%8f%ac%ed%8a%b8-2026%eb%85%84-7%ec%9b%94%ed%98%b8-%ec%9e%90%ec%9c%a8%ed%98%95-ai-%ec%8b%9c%eb%8c%80%ec%9d%98-%eb%91%90-%ec%b6%95-%ec%8b%a4%eb%ac%b4-%ed%88%ac%ec%9e%85%ec%99%80-%eb%b3%b4%ec%95%88%eb%a6%ac%ec%8a%a4%ed%81%ac-%ed%86%b5%ed%95%a9-%ea%b4%80%eb%a6%ac",
+      "url": "https://daoukiwoom.ai/contents/%eb%a6%ac%ed%8f%ac%ed%8a%b8-2026%eb%85%84-7%ec%9b%94%ed%98%b8-%ec%9e%90%ec%9c%a8%ed%98%95-ai-%ec%8b%9c%eb%8c%80%ec%9d%98-%eb%91%90-%ec%b6%95-%ec%8b%a4%eb%ac%b4-%ed%88%ac%ec%9e%85%ec%99%80-%eb%b3%b4%ec%95%88%eb%a6%ac%ec%8a%a4%ed%81%ac-%ed%86%b5%ed%95%a9-%ea%b4%80%eb%a6%ac?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
       "date": "2026-08-12"
     },
     {
       "category": "인사이트",
       "title": "[인사이트] AI 인재전쟁: 핵심 인재를 움직이는 것은 무엇인가",
-      "url": "https://daoukiwoom.ai/contents/%ec%9d%b8%ec%82%ac%ec%9d%b4%ed%8a%b8-ai-%ec%9d%b8%ec%9e%ac%ec%a0%84%ec%9f%81-%ed%95%b5%ec%8b%ac-%ec%9d%b8%ec%9e%ac%eb%a5%bc-%ec%9b%80%ec%a7%81%ec%9d%b4%eb%8a%94-%ea%b2%83%ec%9d%80-%eb%ac%b4%ec%97%87%ec%9d%b8%ea%b0%80",
+      "url": "https://daoukiwoom.ai/contents/%ec%9d%b8%ec%82%ac%ec%9d%b4%ed%8a%b8-ai-%ec%9d%b8%ec%9e%ac%ec%a0%84%ec%9f%81-%ed%95%b5%ec%8b%ac-%ec%9d%b8%ec%9e%ac%eb%a5%bc-%ec%9b%80%ec%a7%81%ec%9d%b4%eb%8a%94-%ea%b2%83%ec%9d%80-%eb%ac%b4%ec%97%87%ec%9d%b8%ea%b0%80?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
       "date": "2026-08-12"
     },
     {
       "category": "인사이트",
       "title": "[인사이트] '비용'에서 '자산'으로: AI 투자 적자를 끊어낼 토큰 이코노미",
-      "url": "https://daoukiwoom.ai/contents/%ec%9d%b8%ec%82%ac%ec%9d%b4%ed%8a%b8-%eb%b9%84%ec%9a%a9%ec%97%90%ec%84%9c-%ec%9e%90%ec%82%b0%ec%9c%bc%eb%a1%9c-ai-%ed%88%ac%ec%9e%90-%ec%a0%81%ec%9e%90%eb%a5%bc-%eb%81%8a%ec%96%b4%eb%82%bc-%ed%86%a0%ed%81%b0-%ec%9d%b4%ec%bd%94%eb%85%b8%eb%af%b8",
+      "url": "https://daoukiwoom.ai/contents/%ec%9d%b8%ec%82%ac%ec%9d%b4%ed%8a%b8-%eb%b9%84%ec%9a%a9%ec%97%90%ec%84%9c-%ec%9e%90%ec%82%b0%ec%9c%bc%eb%a1%9c-ai-%ed%88%ac%ec%9e%90-%ec%a0%81%ec%9e%90%eb%a5%bc-%eb%81%8a%ec%96%b4%eb%82%bc-%ed%86%a0%ed%81%b0-%ec%9d%b4%ec%bd%94%eb%85%b8%eb%af%b8?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
       "date": "2026-08-12"
     },
     {
       "category": "노하우",
       "title": "[노하우] 구글 Gemini Gem 활용 가이드",
-      "url": "https://daoukiwoom.ai/contents/%eb%85%b8%ed%95%98%ec%9a%b0-%ea%b5%ac%ea%b8%80-gemini-gem-%ed%99%9c%ec%9a%a9-%ea%b0%80%ec%9d%b4%eb%93%9c",
+      "url": "https://daoukiwoom.ai/contents/%eb%85%b8%ed%95%98%ec%9a%b0-%ea%b5%ac%ea%b8%80-gemini-gem-%ed%99%9c%ec%9a%a9-%ea%b0%80%ec%9d%b4%eb%93%9c?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
       "date": "2026-08-12"
     },
     {
       "category": "인사이트",
       "title": "[인사이트] Anthropic Mythos 수출 통제와 소버린 AI의 중요성 부각",
-      "url": "https://daoukiwoom.ai/contents/%ec%9d%b8%ec%82%ac%ec%9d%b4%ed%8a%b8-anthropic-mythos-%ec%88%98%ec%b6%9c-%ed%86%b5%ec%a0%9c%ec%99%80-%ec%86%8c%eb%b2%84%eb%a6%b0-ai%ec%9d%98-%ec%a4%91%ec%9a%94%ec%84%b1-%eb%b6%80%ea%b0%81",
+      "url": "https://daoukiwoom.ai/contents/%ec%9d%b8%ec%82%ac%ec%9d%b4%ed%8a%b8-anthropic-mythos-%ec%88%98%ec%b6%9c-%ed%86%b5%ec%a0%9c%ec%99%80-%ec%86%8c%eb%b2%84%eb%a6%b0-ai%ec%9d%98-%ec%a4%91%ec%9a%94%ec%84%b1-%eb%b6%80%ea%b0%81?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
       "date": "2026-08-12"
     },
     {
       "category": "콘텐츠",
       "title": "템플릿",
-      "url": "https://daoukiwoom.ai/contents/%ec%bd%98%ed%85%90%ec%b8%a0-%ed%85%9c%ed%94%8c%eb%a6%bf-1",
+      "url": "https://daoukiwoom.ai/contents/%ec%bd%98%ed%85%90%ec%b8%a0-%ed%85%9c%ed%94%8c%eb%a6%bf-1?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
       "date": "2026-08-05"
-    },
-    {
-      "category": "노하우",
-      "title": "[노하우] [Google I/O 2026] Gemini Omni 업데이트 소식",
-      "url": "https://daoukiwoom.ai/contents/%eb%85%b8%ed%95%98%ec%9a%b0-google-io-2026-gemini-omni-%ec%97%85%eb%8d%b0%ec%9d%b4%ed%8a%b8-%ec%86%8c%ec%8b%9d",
-      "date": "2026-07-31"
-    },
-    {
-      "category": "노하우",
-      "title": "[노하우] 같은 AI, 다른 결과 | 업무별 프롬프트 실전 가이드",
-      "url": "https://daoukiwoom.ai/contents/%eb%85%b8%ed%95%98%ec%9a%b0-%ea%b0%99%ec%9d%80-ai-%eb%8b%a4%eb%a5%b8-%ea%b2%b0%ea%b3%bc-%ec%97%85%eb%ac%b4%eb%b3%84-%ed%94%84%eb%a1%ac%ed%94%84%ed%8a%b8-%ec%8b%a4%ec%a0%84-%ea%b0%80%ec%9d%b4%eb%93%9c",
-      "date": "2026-07-31"
     }
   ]
 }
