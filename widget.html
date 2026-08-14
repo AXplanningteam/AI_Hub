@@ -38,9 +38,37 @@
 
   /* ── 배경 장식 ── */
   .deco { position: absolute; pointer-events: none; z-index: 0; }
-  .deco-arrow { left: -12px; top: 30%; width: 62px; opacity: 0.65; transform: rotate(-10deg); }
-  .deco-gyro  { right: -22px; bottom: 26px; width: 104px; opacity: 0.6; transform: rotate(14deg); }
-  .deco-node  { left: 8px; bottom: 16px; width: 48px; opacity: 0.5; transform: rotate(-6deg); }
+  /* 캐릭터 양옆 (hub-stage 기준) */
+  .deco-arrow {
+    left: -6px;
+    top: 50%;
+    transform: translateY(-60%) rotate(-10deg);
+    width: 58px;
+    opacity: 0.65;
+  }
+  .deco-gyro {
+    right: -14px;
+    top: 50%;
+    transform: translateY(-38%) rotate(14deg);
+    width: 84px;
+    opacity: 0.6;
+  }
+  /* 상단 문구 근처 우측 (위젯 기준) */
+  .deco-node {
+    top: 10px;
+    right: 8px;
+    width: 44px;
+    opacity: 0.45;
+    transform: rotate(-6deg);
+  }
+
+  /* 캐릭터 구역: 양옆 장식의 기준 */
+  .hub-stage {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 
   .hub-inner {
     position: relative;
@@ -111,14 +139,18 @@
     overflow: hidden;
     white-space: nowrap;
   }
-  .news-title-inner { display: inline-block; }
-  .news-title-inner.roll {
-    animation: rollTitle var(--dur, 8s) linear infinite;
+  .news-title-inner {
+    display: inline-flex;
+    gap: 36px;              /* 반복되는 제목 사이 간격 */
+    white-space: nowrap;
   }
-  /* 처음에 잠깐 멈췄다가 왼쪽으로 끝까지 흐른 뒤, 처음으로 돌아가 반복 */
-  @keyframes rollTitle {
-    0%, 15%   { transform: translateX(0); }
-    85%, 100% { transform: translateX(var(--dist, 0px)); }
+  .news-title-inner.roll {
+    animation: tickerRoll var(--dur, 10s) linear infinite;
+  }
+  /* 캐러셀(뉴스 티커): 왼쪽으로 끊김 없이 무한 순환 */
+  @keyframes tickerRoll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(var(--dist, 0px)); }
   }
   @media (prefers-reduced-motion: reduce) {
     .news-title-inner.roll { animation: none; }
@@ -160,40 +192,8 @@
 <div class="hub-widget">
 
   <!-- 좌측 중단: 점선 원 + 상승 화살표 -->
-  <svg class="deco deco-arrow" viewBox="0 0 90 90" aria-hidden="true">
-    <defs>
-      <filter id="g1" x="-60%" y="-60%" width="220%" height="220%">
-        <feGaussianBlur stdDeviation="2" result="b"/>
-        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-    </defs>
-    <circle cx="45" cy="45" r="30" fill="none" stroke="#7FB8E8" stroke-width="1.1" stroke-dasharray="3 4" opacity="0.7"/>
-    <g filter="url(#g1)">
-      <path d="M45 60 V28" stroke="#4A9FFF" stroke-width="3.4" stroke-linecap="round"/>
-      <path d="M36 37 L45 26 L54 37" stroke="#4A9FFF" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="45" cy="61" r="5.4" fill="#3B82F6"/>
-    </g>
-    <circle cx="70" cy="24" r="2.2" fill="#BFDFF6" opacity="0.85"/>
-  </svg>
 
   <!-- 우측 하단: 자이로 궤도 -->
-  <svg class="deco deco-gyro" viewBox="0 0 90 90" aria-hidden="true">
-    <defs>
-      <filter id="g3" x="-60%" y="-60%" width="220%" height="220%">
-        <feGaussianBlur stdDeviation="2" result="b"/>
-        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-    </defs>
-    <g stroke="#7FB8E8" stroke-width="1.1" fill="none" opacity="0.75">
-      <ellipse cx="45" cy="45" rx="34" ry="12" transform="rotate(-22 45 45)"/>
-      <ellipse cx="45" cy="45" rx="34" ry="12" transform="rotate(42 45 45)"/>
-      <ellipse cx="45" cy="45" rx="34" ry="12" transform="rotate(106 45 45)"/>
-    </g>
-    <g filter="url(#g3)">
-      <path d="M31 49 L58 41" stroke="#4A9FFF" stroke-width="2.6" stroke-linecap="round"/>
-      <circle cx="60" cy="40" r="4" fill="#3B82F6"/>
-    </g>
-  </svg>
 
   <!-- 좌측 하단: 노드 네트워크 -->
   <svg class="deco deco-node" viewBox="0 0 90 90" aria-hidden="true">
@@ -220,7 +220,41 @@
       <span class="accent">지식 자산</span>을 한 곳에서 만나보세요
     </p>
 
-    <img class="hub-char" alt="다우키움 AI 캐릭터" src="https://axplanningteam.github.io/AI_Hub/ai-hub-character.png">
+    <div class="hub-stage">
+  <svg class="deco deco-arrow" viewBox="0 0 90 90" aria-hidden="true">
+    <defs>
+      <filter id="g1" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="2" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <circle cx="45" cy="45" r="30" fill="none" stroke="#7FB8E8" stroke-width="1.1" stroke-dasharray="3 4" opacity="0.7"/>
+    <g filter="url(#g1)">
+      <path d="M45 60 V28" stroke="#4A9FFF" stroke-width="3.4" stroke-linecap="round"/>
+      <path d="M36 37 L45 26 L54 37" stroke="#4A9FFF" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="45" cy="61" r="5.4" fill="#3B82F6"/>
+    </g>
+    <circle cx="70" cy="24" r="2.2" fill="#BFDFF6" opacity="0.85"/>
+  </svg>
+      <img class="hub-char" alt="다우키움 AI 캐릭터" src="https://axplanningteam.github.io/AI_Hub/ai-hub-character.png">
+  <svg class="deco deco-gyro" viewBox="0 0 90 90" aria-hidden="true">
+    <defs>
+      <filter id="g3" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="2" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <g stroke="#7FB8E8" stroke-width="1.1" fill="none" opacity="0.75">
+      <ellipse cx="45" cy="45" rx="34" ry="12" transform="rotate(-22 45 45)"/>
+      <ellipse cx="45" cy="45" rx="34" ry="12" transform="rotate(42 45 45)"/>
+      <ellipse cx="45" cy="45" rx="34" ry="12" transform="rotate(106 45 45)"/>
+    </g>
+    <g filter="url(#g3)">
+      <path d="M31 49 L58 41" stroke="#4A9FFF" stroke-width="2.6" stroke-linecap="round"/>
+      <circle cx="60" cy="40" r="4" fill="#3B82F6"/>
+    </g>
+  </svg>
+    </div>
 
     <!-- 최신 소식 (JSON에서 자동 로드) -->
     <div class="hub-news" id="hubNews">
@@ -270,26 +304,36 @@
       var isNew = it.date && (now - new Date(it.date).getTime()) < NEW_BADGE_DAYS * 86400000;
       return '<a class="news-item" href="' + esc(it.url || "#") + '" target="_blank" rel="noopener">'
         + (isNew ? '<span class="news-badge">N</span>' : "")
-        + '<span class="news-title"><span class="news-title-inner">' + esc(unescapeEntities(it.title || "")) + "</span></span>"
+        + '<span class="news-title"><span class="news-title-inner"><span>' + esc(unescapeEntities(it.title || "")) + "</span></span></span>"
         + "</a>";
     }).join("");
     startRolling();
   }
 
-  // 영역보다 긴 제목만 좌우 롤링
+  // 영역보다 긴 제목만 캐러셀(티커) 롤링
+  var TICKER_GAP = 36;   // CSS의 gap과 동일하게
+  var TICKER_SPEED = 30; // px/초
+
   function startRolling() {
     requestAnimationFrame(function () {
       var titles = box.querySelectorAll(".news-title");
       for (var i = 0; i < titles.length; i++) {
         var outer = titles[i];
         var inner = outer.querySelector(".news-title-inner");
-        var overflow = inner.scrollWidth - outer.clientWidth;
-        if (overflow > 4) {
-          inner.style.setProperty("--dist", -(overflow + 8) + "px");
-          // 넘친 길이에 비례한 속도 (30px/s 내외), 최소 6초
-          inner.style.setProperty("--dur", Math.max(6, overflow / 30 + 4) + "s");
-          inner.classList.add("roll");
-        }
+        var textEl = inner.firstChild;
+        if (!textEl) continue;
+        var textW = textEl.scrollWidth || textEl.offsetWidth;
+        if (textW <= outer.clientWidth + 4) continue; // 안 넘치면 그대로
+
+        // 같은 제목을 하나 더 이어붙여서 끊김 없는 순환 구조로
+        var clone = textEl.cloneNode(true);
+        clone.setAttribute("aria-hidden", "true");
+        inner.appendChild(clone);
+
+        var loopW = textW + TICKER_GAP; // 정확히 한 벌 길이만큼 이동하면 처음과 동일한 화면
+        inner.style.setProperty("--dist", -loopW + "px");
+        inner.style.setProperty("--dur", (loopW / TICKER_SPEED) + "s");
+        inner.classList.add("roll");
       }
     });
   }
