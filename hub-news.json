@@ -1,0 +1,41 @@
+{
+  "updated": "2026-08-14T09:00:00+09:00",
+  "items": [
+    {
+      "category": "리포트",
+      "title": "2026년 7월호 | 실리적 AI 도입 전략",
+      "url": "https://YOUR-HUB/research/2026-07",
+      "date": "2026-08-12"
+    },
+    {
+      "category": "행사",
+      "title": "2026 DaouKiwoom AI 경진대회 접수 안내",
+      "url": "https://YOUR-HUB/story/ai-contest-2026",
+      "date": "2026-08-08"
+    },
+    {
+      "category": "아카데미",
+      "title": "(위젯에서 자동 제외되는 예시) 프롬프트 기초 강의 오픈",
+      "url": "https://YOUR-HUB/academy/prompt-basic",
+      "date": "2026-08-07"
+    },
+    {
+      "category": "활용팁",
+      "title": "Gemini 환각 줄이기 가이드 공개",
+      "url": "https://YOUR-HUB/tips/gemini-hallucination",
+      "date": "2026-08-01"
+    },
+    {
+      "category": "리서치",
+      "title": "주간 AI 동향 브리핑 8월 1주차",
+      "url": "https://YOUR-HUB/research/weekly-2026-08-1",
+      "date": "2026-07-30"
+    },
+    {
+      "category": "AX Works",
+      "title": "AX 컨설팅 3분기 신청 접수 시작",
+      "url": "https://YOUR-HUB/axworks/apply-q3",
+      "date": "2026-07-25"
+    }
+  ]
+}
