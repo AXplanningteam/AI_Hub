@@ -1,7 +1,6 @@
 [
   {
-    "slug": "AI_Tip",
-    "path": "AI_Tip/gemini-hallucination.html",
+    "file": "AI_Tip/gemini-hallucination.html",
     "new": true,
     "thumb": "gemini",
     "kicker": "TUTORIAL",
