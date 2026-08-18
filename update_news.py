@@ -27,7 +27,10 @@ FETCH_TITLES = True    # 각 글 페이지에서 정확한 제목(og:title)을 �
 PAGES_BASE = "https://axplanningteam.github.io/AI_Hub/"
 TIP_CATEGORY = "활용팁"
 
-# 단일 HTML 자료를 모아두는 폴더 (AI_Tip/자료명.html)
+# 활용팁 카드 목록 (공식 소스): 여기 등록된 자료만 위젯에 노출
+TIP_CARDS_FILE = "ai-tip-cards.json"
+
+# (폴백용) 단일 HTML 자료를 모아두는 폴더 (AI_Tip/자료명.html)
 TIP_DIRS = ["AI_Tip"]
 
 # 자료 폴더가 아닌 폴더 (스캔 제외)
@@ -121,6 +124,19 @@ def extract_title_from_html(html):
     return title or None
 
 
+def git_last_commit_date(path):
+    """해당 경로의 마지막 커밋 날짜(ISO). 실패 시 빈 문자열."""
+    import subprocess
+    try:
+        out = subprocess.run(
+            ["git", "log", "-1", "--format=%cI", "--", path],
+            capture_output=True, text=True, timeout=20,
+        )
+        return out.stdout.strip()
+    except Exception:
+        return ""
+
+
 def git_first_commit_date(path):
     """해당 경로가 처음 등록된 커밋 날짜(ISO). 실패 시 빈 문자열."""
     import subprocess
@@ -168,6 +184,60 @@ def warn_bad_path(rel):
 
 def get_tip_items():
     """AI 활용팁 자료 수집.
+    1순위: ai-tip-cards.json (활용팁 페이지 카드 목록 = 공식 소스)
+    폴백 : 카드 JSON이 없거나 깨졌으면 리포 스캔."""
+    if os.path.isfile(TIP_CARDS_FILE):
+        return get_tip_items_from_cards()
+    return get_tip_items_from_scan()
+
+
+def get_tip_items_from_cards():
+    """카드 JSON의 각 항목을 hub-news 항목으로 변환.
+    카드의 path(실제 파일/폴더 경로)를 우선 사용, 없으면 slug.
+    - path가 .html로 끝나면 단일 파일 자료 (예: AI_Tip/gemini-hallucination.html)
+    - 아니면 폴더형 자료 (예: sovereign-ai -> .../sovereign-ai/)
+    카드에 없는 파일(test.html 등)은 위젯에 노출되지 않음."""
+    try:
+        with open(TIP_CARDS_FILE, encoding="utf-8") as f:
+            cards = json.load(f)
+    except Exception as e:
+        print(f"WARNING: {TIP_CARDS_FILE} 파싱 실패({e}) -> 리포 스캔으로 폴백", file=sys.stderr)
+        return get_tip_items_from_scan()
+    if not isinstance(cards, list):
+        cards = cards.get("items", [])
+
+    items = []
+    for card in cards:
+        ref = (card.get("path") or card.get("slug") or "").strip().strip("/")
+        title = (card.get("title") or "").strip()
+        if not ref or not title:
+            continue
+        warn_bad_path(ref)
+        if ref.endswith(".html"):
+            url = PAGES_BASE + ref
+            local = ref
+        else:
+            url = PAGES_BASE + ref + "/"
+            local = ref + "/index.html"
+        # 자료 등록일 = 해당 경로의 최초 커밋일. 경로를 못 찾으면 카드 JSON 변경일로 폴백
+        date = git_first_commit_date(ref) if os.path.exists(ref) else ""
+        if not date:
+            date = git_last_commit_date(TIP_CARDS_FILE)
+            print(f"WARNING: '{ref}' 경로를 찾지 못해 카드 JSON 변경일로 대체", file=sys.stderr)
+        items.append({
+            "category": TIP_CATEGORY,
+            "title": f"[{TIP_CATEGORY}] {title}",
+            "url": add_utm(url),
+            "date": date[:10] if date else "",
+            "_sort": date or "",
+            "_path": local if os.path.isfile(local) else None,
+        })
+        print(f"tip(card): {items[-1]['title']} -> {items[-1]['url']} ({items[-1]['date']})")
+    return items
+
+
+def get_tip_items_from_scan():
+    """(폴백) 리포 스캔 방식.
 
     A) 단일 HTML  : AI_Tip/자료명.html          -> /AI_Hub/AI_Tip/자료명.html
     B) 폴더형 자료 : 폴더명/index.html           -> /AI_Hub/폴더명/
