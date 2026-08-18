@@ -21,6 +21,7 @@ from urllib.parse import (unquote, urlparse, urlsplit, urlunsplit,
 
 SITEMAP_URL = "https://daoukiwoom.ai/sitemap.xml"
 OUTPUT_FILE = "hub-news.json"
+FIRST_SEEN_FILE = "news-first-seen.json"  # 글별 "처음 발견한 날" 기록 (N 배지 판정용)
 MAX_ITEMS = 8          # JSON에 담을 최대 글 수 (위젯은 이 중 5개 표시)
 FETCH_TITLES = True    # 각 글 페이지에서 정확한 제목(og:title)을 가져올지 여부
 
@@ -335,6 +336,62 @@ def check_ga4(tip_items):
     return missing
 
 
+def canonical_url(url):
+    """UTM 등 쿼리를 뗀 순수 URL (최초 목격일 기록의 키)."""
+    parts = urlsplit(url)
+    return urlunsplit((parts.scheme, parts.netloc, parts.path, "", ""))
+
+
+def apply_first_seen(site_items, all_urls):
+    """사이트 글의 N 배지 판정용 날짜를 '작성일(최초 발견일)'로 교체.
+
+    sitemap의 lastmod는 수정일이라 작성일 기준 배지 판정에 쓸 수 없다.
+    대신 스크립트가 30분마다 돌며 sitemap "전체" 글을 FIRST_SEEN_FILE에 기록한다.
+    -> 새 글은 발행 후 30분 안에 발견되므로, 최초 발견일 = 사실상 작성일.
+
+    - 기록에 있는 글: 기록된 작성일 사용 (이후 수정돼도 절대 안 바뀜)
+    - 기록에 없는 글: 오늘 기록 -> 작성 후 7일간 N 배지
+    - 기록 파일이 없는 최초 실행: 현재 sitemap의 모든 글을 '과거 글'로 시드
+      (이 시점 이전 글들의 실제 작성일은 알 수 없으므로 배지 제외)
+    * 순위 밖에 있던 옛 글이 나중에 상위권에 들어와도, 전체 글이 이미
+      등재돼 있으므로 새 글로 오인하지 않는다.
+    * 정렬(_sort)은 계속 lastmod 기준이라 목록 순서는 그대로다.
+    * 활용팁 자료는 git 최초 커밋일(진짜 작성일)을 쓰므로 이 처리 대상이 아니다.
+    """
+    from datetime import datetime, timezone, timedelta
+    kst = timezone(timedelta(hours=9))
+    today = datetime.now(kst).strftime("%Y-%m-%d")
+
+    seeding = not os.path.isfile(FIRST_SEEN_FILE)
+    registry = {}
+    if not seeding:
+        try:
+            with open(FIRST_SEEN_FILE, encoding="utf-8") as f:
+                registry = json.load(f)
+        except Exception as e:
+            print(f"WARNING: {FIRST_SEEN_FILE} 파싱 실패({e}) -> 새로 생성", file=sys.stderr)
+            registry = {}
+
+    # sitemap 전체 글을 등재 (표시 여부와 무관하게 작성 시점 기록)
+    for url in all_urls:
+        key = canonical_url(url)
+        if key in registry:
+            continue
+        registry[key] = "2026-01-01" if seeding else today
+        if not seeding:
+            print(f"new: 처음 발견한 글 -> {key}")
+
+    # 표시할 글의 배지 판정 날짜를 작성일로 교체
+    for it in site_items:
+        it["date"] = registry.get(canonical_url(it["url"]), it["date"])
+
+    with open(FIRST_SEEN_FILE, "w", encoding="utf-8") as f:
+        json.dump(registry, f, ensure_ascii=False, indent=2, sort_keys=True)
+    if seeding:
+        print(f"{FIRST_SEEN_FILE} 최초 생성: 기존 {len(registry)}건을 과거 글로 시드")
+    return site_items
+
+
 def is_excluded(category, url):
     text = (category + " " + url).lower()
     return any(k.lower() in text for k in EXCLUDE_KEYWORDS)
@@ -366,6 +423,9 @@ def main():
             "_sort": lastmod or "",
         })
         print(f"site: [{category}] {site_items[-1]['title']} ({site_items[-1]['date']})")
+
+    # 사이트 글의 배지 판정 날짜를 작성일(최초 발견일)로 교체 (sitemap 전체 등재)
+    site_items = apply_first_seen(site_items, [u for u, _ in entries])
 
     # 2) AI 활용팁 자료 (리포 스캔)
     tip_items = get_tip_items()
