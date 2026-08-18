@@ -208,7 +208,7 @@ def get_tip_items_from_cards():
 
     items = []
     for card in cards:
-        ref = (card.get("path") or card.get("slug") or "").strip().strip("/")
+        ref = (card.get("file") or card.get("path") or card.get("slug") or "").strip().strip("/")
         title = (card.get("title") or "").strip()
         if not ref or not title:
             continue
