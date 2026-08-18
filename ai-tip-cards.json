@@ -9,5 +9,16 @@
     "badges": ["프롬프트 엔지니어링"],
     "title": "Gemini 할루시네이션 저감 튜토리얼",
     "desc": "AI가 사실과 다른 답변을 만들어내는 현상을 줄이는 실전 프롬프트 기법을 정리했습니다."
-  }
+  },
+  {
+    
+    "file": "AI_Tip/ax_people_blogstyle_newsletter.html",
+    "new": true,
+    "thumb": "gemini",
+    "kicker": "REPORT",
+    "thumbTitle": "AI 헤비유저\n인터뷰",
+    "cat": "Trend",
+    "badges": ["AX피"],
+    "title": "AI 헤비유저 인터뷰",
+    "desc": "AI헤비유저는 어떻게 쓰고 계신지 인터뷰를 진행했습니다."
 ]
