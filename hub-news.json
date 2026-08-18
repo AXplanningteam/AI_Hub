@@ -1,15 +1,15 @@
 {
-  "updated": "2026-08-18T08:42:40+09:00",
+  "updated": "2026-08-18T09:19:34+09:00",
   "items": [
     {
       "category": "활용팁",
-      "title": "[활용팁] AI 인사이트 · 소버린 AI",
-      "url": "https://axplanningteam.github.io/AI_Hub/AI_Tip/test.html?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
-      "date": "2026-08-14"
+      "title": "[활용팁] AI 모델이 '무기'가 된 날, 부상하는 소버린 AI",
+      "url": "https://axplanningteam.github.io/AI_Hub/sovereign-ai/?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
+      "date": "2026-08-18"
     },
     {
       "category": "활용팁",
-      "title": "[활용팁] Gemini 할루시네이션 저감 튜토리얼 — 체험형",
+      "title": "[활용팁] Gemini 할루시네이션 저감 튜토리얼",
       "url": "https://axplanningteam.github.io/AI_Hub/AI_Tip/gemini-hallucination.html?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
       "date": "2026-08-14"
     },
