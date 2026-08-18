@@ -193,9 +193,13 @@ def get_tip_items():
 
 def get_tip_items_from_cards():
     """카드 JSON의 각 항목을 hub-news 항목으로 변환.
-    카드의 path(실제 파일/폴더 경로)를 우선 사용, 없으면 slug.
-    - path가 .html로 끝나면 단일 파일 자료 (예: AI_Tip/gemini-hallucination.html)
-    - 아니면 폴더형 자료 (예: sovereign-ai -> .../sovereign-ai/)
+
+    인식하는 키 (Super Body 스크립트와 동일):
+      url  : 외부 전체 주소 (노션 등) -> 그대로 사용
+      file : 저장소 내 파일 경로       (예: AI_Tip/gemini-hallucination.html)
+      path : file 의 구버전 이름        (하위 호환)
+      slug : 폴더명                     (예: excel-automation -> .../excel-automation/)
+    우선순위: url > file > path > slug
     카드에 없는 파일(test.html 등)은 위젯에 노출되지 않음."""
     try:
         with open(TIP_CARDS_FILE, encoding="utf-8") as f:
@@ -203,36 +207,63 @@ def get_tip_items_from_cards():
     except Exception as e:
         print(f"WARNING: {TIP_CARDS_FILE} 파싱 실패({e}) -> 리포 스캔으로 폴백", file=sys.stderr)
         return get_tip_items_from_scan()
+
     if not isinstance(cards, list):
         cards = cards.get("items", [])
 
     items = []
-    for card in cards:
-        ref = (card.get("file") or card.get("path") or card.get("slug") or "").strip().strip("/")
+    for i, card in enumerate(cards, 1):
         title = (card.get("title") or "").strip()
-        if not ref or not title:
+        ext_url = (card.get("url") or "").strip()
+        ref = (card.get("file") or card.get("path") or card.get("slug") or "").strip().strip("/")
+
+        if not title:
+            print(f"WARNING: {i}번째 카드에 title 이 없어 건너뜁니다.", file=sys.stderr)
             continue
-        warn_bad_path(ref)
-        if ref.endswith(".html"):
-            url = PAGES_BASE + ref
-            local = ref
+        if not ext_url and not ref:
+            print(f"WARNING: '{title}' 카드에 url/file/slug 가 없어 건너뜁니다. "
+                  f"(path 대신 file 을 쓰세요)", file=sys.stderr)
+            continue
+
+        if ext_url:
+            # 외부 링크 자료 (노션 등): 로컬 파일이 없으므로 GA4 검사 대상에서 제외
+            url, local, ref_for_date = ext_url, None, None
         else:
-            url = PAGES_BASE + ref + "/"
-            local = ref + "/index.html"
+            warn_bad_path(ref)
+            # 확장자 판정은 대소문자 무시 (.HTML, .Html 도 파일로 인식)
+            if ref.lower().endswith((".html", ".htm")):
+                url = PAGES_BASE + ref
+                local = ref
+            else:
+                url = PAGES_BASE + ref + "/"
+                local = ref + "/index.html"
+            ref_for_date = ref
+
+            # 링크가 실제로 존재하는지 확인 (404 사전 경고)
+            if not os.path.exists(local):
+                print(f"WARNING: '{title}' -> '{local}' 파일이 없습니다. "
+                      f"링크가 404가 됩니다.", file=sys.stderr)
+
         # 자료 등록일 = 해당 경로의 최초 커밋일. 경로를 못 찾으면 카드 JSON 변경일로 폴백
-        date = git_first_commit_date(ref) if os.path.exists(ref) else ""
+        date = ""
+        if ref_for_date and os.path.exists(ref_for_date):
+            date = git_first_commit_date(ref_for_date)
         if not date:
             date = git_last_commit_date(TIP_CARDS_FILE)
-            print(f"WARNING: '{ref}' 경로를 찾지 못해 카드 JSON 변경일로 대체", file=sys.stderr)
+
         items.append({
             "category": TIP_CATEGORY,
             "title": f"[{TIP_CATEGORY}] {title}",
             "url": add_utm(url),
             "date": date[:10] if date else "",
             "_sort": date or "",
-            "_path": local if os.path.isfile(local) else None,
+            "_path": local if (local and os.path.isfile(local)) else None,
         })
         print(f"tip(card): {items[-1]['title']} -> {items[-1]['url']} ({items[-1]['date']})")
+
+    if not items:
+        print(f"WARNING: {TIP_CARDS_FILE} 에서 유효한 자료를 찾지 못했습니다. "
+              f"키 이름(url/file/slug)을 확인하세요.", file=sys.stderr)
     return items
 
 
