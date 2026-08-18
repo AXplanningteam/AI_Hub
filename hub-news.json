@@ -1,12 +1,6 @@
 {
-  "updated": "2026-08-18T14:53:46+09:00",
+  "updated": "2026-08-18T15:22:45+09:00",
   "items": [
-    {
-      "category": "활용팁",
-      "title": "[활용팁] AI 헤비유저 인터뷰",
-      "url": "https://axplanningteam.github.io/AI_Hub/AI_Tip/ax_people_blogstyle_newsletter.html?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
-      "date": "2026-08-18"
-    },
     {
       "category": "활용팁",
       "title": "[활용팁] Gemini 할루시네이션 저감 튜토리얼",
@@ -48,6 +42,12 @@
       "title": "템플릿",
       "url": "https://daoukiwoom.ai/contents/%ec%bd%98%ed%85%90%ec%b8%a0-%ed%85%9c%ed%94%8c%eb%a6%bf-1?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
       "date": "2026-08-05"
+    },
+    {
+      "category": "노하우",
+      "title": "[노하우] [Google I/O 2026] Gemini Omni 업데이트 소식",
+      "url": "https://daoukiwoom.ai/contents/%eb%85%b8%ed%95%98%ec%9a%b0-google-io-2026-gemini-omni-%ec%97%85%eb%8d%b0%ec%9d%b4%ed%8a%b8-%ec%86%8c%ec%8b%9d?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
+      "date": "2026-07-31"
     }
   ]
 }
