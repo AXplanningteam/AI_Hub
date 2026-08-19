@@ -1,11 +1,23 @@
 {
-  "updated": "2026-08-19T09:33:24+09:00",
+  "updated": "2026-08-19T11:10:28+09:00",
   "items": [
     {
       "category": "활용팁",
       "title": "[활용팁] Gemini 할루시네이션 저감 튜토리얼",
       "url": "https://daoukiwoom.ai/contents/%ed%99%9c%ec%9a%a9%ed%8c%81-gemini-%ed%95%a0%eb%a3%a8%ec%8b%9c%eb%84%a4%ec%9d%b4%ec%85%98-%ec%a0%80%ea%b0%90-%ed%8a%9c%ed%86%a0%eb%a6%ac%ec%96%bc?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
       "date": "2026-08-19"
+    },
+    {
+      "category": "노하우",
+      "title": "[노하우] 같은 AI, 다른 결과 | 업무별 프롬프트 실전 가이드",
+      "url": "https://daoukiwoom.ai/contents/%eb%85%b8%ed%95%98%ec%9a%b0-%ea%b0%99%ec%9d%80-ai-%eb%8b%a4%eb%a5%b8-%ea%b2%b0%ea%b3%bc-%ec%97%85%eb%ac%b4%eb%b3%84-%ed%94%84%eb%a1%ac%ed%94%84%ed%8a%b8-%ec%8b%a4%ec%a0%84-%ea%b0%80%ec%9d%b4%eb%93%9c?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
+      "date": "2026-01-01"
+    },
+    {
+      "category": "노하우",
+      "title": "[노하우] 프롬프트를 자산으로 만드는 법",
+      "url": "https://daoukiwoom.ai/contents/%eb%85%b8%ed%95%98%ec%9a%b0-%ed%94%84%eb%a1%ac%ed%94%84%ed%8a%b8%eb%a5%bc-%ec%9e%90%ec%82%b0%ec%9c%bc%eb%a1%9c-%eb%a7%8c%eb%93%9c%eb%8a%94-%eb%b2%95?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
+      "date": "2026-01-01"
     },
     {
       "category": "리포트",
@@ -26,21 +38,15 @@
       "date": "2026-01-01"
     },
     {
-      "category": "노하우",
-      "title": "[노하우] 같은 AI, 다른 결과 | 업무별 프롬프트 실전 가이드",
-      "url": "https://daoukiwoom.ai/contents/%eb%85%b8%ed%95%98%ec%9a%b0-%ea%b0%99%ec%9d%80-ai-%eb%8b%a4%eb%a5%b8-%ea%b2%b0%ea%b3%bc-%ec%97%85%eb%ac%b4%eb%b3%84-%ed%94%84%eb%a1%ac%ed%94%84%ed%8a%b8-%ec%8b%a4%ec%a0%84-%ea%b0%80%ec%9d%b4%eb%93%9c?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
-      "date": "2026-01-01"
+      "category": "활용팁",
+      "title": "[활용팁] Gemini 할루시네이션 저감 튜토리얼 — 체험형",
+      "url": "https://axplanningteam.github.io/AI_Hub/AI_Tip/gemini-hallucination.html?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
+      "date": "2026-08-14"
     },
     {
       "category": "노하우",
       "title": "[노하우] 구글 Gemini Gem 활용 가이드",
       "url": "https://daoukiwoom.ai/contents/%eb%85%b8%ed%95%98%ec%9a%b0-%ea%b5%ac%ea%b8%80-gemini-gem-%ed%99%9c%ec%9a%a9-%ea%b0%80%ec%9d%b4%eb%93%9c?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
-      "date": "2026-01-01"
-    },
-    {
-      "category": "인사이트",
-      "title": "[인사이트] Anthropic Mythos 수출 통제와 소버린 AI의 중요성 부각",
-      "url": "https://daoukiwoom.ai/contents/%ec%9d%b8%ec%82%ac%ec%9d%b4%ed%8a%b8-anthropic-mythos-%ec%88%98%ec%b6%9c-%ed%86%b5%ec%a0%9c%ec%99%80-%ec%86%8c%eb%b2%84%eb%a6%b0-ai%ec%9d%98-%ec%a4%91%ec%9a%94%ec%84%b1-%eb%b6%80%ea%b0%81?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
       "date": "2026-01-01"
     }
   ]
