@@ -341,9 +341,29 @@
   details.fold[open] summary::before { content: "▾ "; }
   details.fold > *:not(summary) { padding: 0 20px 18px; }
   details.fold .clgrid, details.fold .refgrid { padding: 2px 20px 20px; }
-</style>
+
+  /* ===== embed(iframe) 전용 보정 — 직접 열었을 때는 적용되지 않음 =====
+     iframe 안에서는 position:fixed 가 iframe 전체를 기준으로 잡혀
+     화살표가 화면 맨 아래로 밀려나므로, 본문(.wrap) 기준 세로 중앙에 고정한다. */
+  .in-embed .wrap { position: relative; }
+  .in-embed .side-arrow {
+    position: absolute !important;
+    top: 50% !important;
+    bottom: auto !important;
+    transform: translateY(-50%) !important;
+    width: 44px !important; height: 44px !important;
+  }
+  .in-embed .side-arrow.left  { left: 4px !important;  right: auto !important; }
+  .in-embed .side-arrow.right { right: 4px !important; left: auto !important; }
+  @media (max-width: 700px) {
+    .in-embed .side-arrow { width: 38px !important; height: 38px !important; }
+    .in-embed .side-arrow.left  { left: 2px !important; }
+    .in-embed .side-arrow.right { right: 2px !important; }
+  }
+  </style>
 </head>
 <body>
+<script>if (window.self !== window.top) document.documentElement.classList.add('in-embed');</script>
 <div class="wrap">
   <div class="top">
     <h1>Gemini 할루시네이션 저감 튜토리얼</h1>
