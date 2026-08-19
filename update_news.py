@@ -1,14 +1,21 @@
 # -*- coding: utf-8 -*-
 """
-daoukiwoom.ai sitemap.xml + 이 리포의 AI 활용팁 자료를 읽어
-hub-news.json을 갱신하는 스크립트. GitHub Actions에서 매일 실행됨.
-표준 라이브러리만 사용 (별도 설치 불필요).
+daoukiwoom.ai sitemap.xml 을 읽어 hub-news.json 을 갱신하는 스크립트.
+GitHub Actions 에서 30분마다 실행됨. 표준 라이브러리만 사용 (설치 불필요).
 
-[2026-08 변경]
-- 사내포털 유입 측정을 위해 URL에 UTM 파라미터 자동 부착
-- 자료 HTML에 GA4 태그가 빠졌는지 검사해 경고 출력
-- 경로에 앞뒤 공백이 섞인 폴더/파일 검출 경고
+[2026-08 구조 변경]
+AI 활용팁 자료도 노션 CONTENTS 데이터베이스에 등록되어
+daoukiwoom.ai 안에서 열리도록 바뀌었다.
+→ 사내포털 위젯이 가리키는 주소도 github.io 가 아니라 daoukiwoom.ai 다.
+→ 따라서 이 스크립트는 더 이상 리포의 HTML 을 스캔하지 않고,
+   sitemap 하나만 보면 된다. (활용팁도 sitemap 에 함께 들어옴)
+
+  · 제거: 리포 스캔 / ai-tip-cards.json / GA4 태그 검사 / git 커밋일 조회
+  · 활용팁 판별: 노션 원본 제목의 "[활용팁] " 접두어
+  · UTM 이 이제 GA4 가 붙은 도메인(daoukiwoom.ai)에 그대로 도착하므로
+    사내포털 유입이 정상 집계된다 (예전 github.io 는 교차도메인이라 끊겼음)
 """
+
 import html as html_lib
 import json
 import os
@@ -21,28 +28,24 @@ from urllib.parse import (unquote, urlparse, urlsplit, urlunsplit,
 
 SITEMAP_URL = "https://daoukiwoom.ai/sitemap.xml"
 OUTPUT_FILE = "hub-news.json"
-FIRST_SEEN_FILE = "news-first-seen.json"  # 글별 "처음 발견한 날" 기록 (N 배지 판정용)
-MAX_ITEMS = 8          # JSON에 담을 최대 글 수 (위젯은 이 중 5개 표시)
+FIRST_SEEN_FILE = "news-first-seen.json"   # 글별 "처음 발견한 날" 기록 (N 배지 판정용)
+
+MAX_ITEMS = 8          # JSON 에 담을 최대 글 수 (위젯은 이 중 5개 표시)
 FETCH_TITLES = True    # 각 글 페이지에서 정확한 제목(og:title)을 가져올지 여부
+                       # ※ 활용팁 판별이 제목 접두어에 의존하므로 True 유지 필수
 
-PAGES_BASE = "https://axplanningteam.github.io/AI_Hub/"
 TIP_CATEGORY = "활용팁"
+TIP_PREFIX_RE = re.compile(r"^\s*\[\s*활용팁\s*\]\s*")
 
-# 활용팁 카드 목록 (공식 소스): 여기 등록된 자료만 위젯에 노출
-TIP_CARDS_FILE = "ai-tip-cards.json"
-
-# (폴백용) 단일 HTML 자료를 모아두는 폴더 (AI_Tip/자료명.html)
-TIP_DIRS = ["AI_Tip"]
-
-# 자료 폴더가 아닌 폴더 (스캔 제외)
-SKIP_DIRS = {".github", ".git", "scripts", "node_modules"}
+# 활용팁 자리를 최소 몇 개 보장할지. 0 이면 순수 최신순.
+# 일반 콘텐츠가 몰리는 날에도 활용팁을 위젯에 남기고 싶으면 1~2 로.
+RESERVE_TIP_SLOTS = 0
 
 # 위젯뿐 아니라 JSON 단계에서도 제외할 카테고리/경로 키워드
 EXCLUDE_KEYWORDS = ["아카데미", "academy"]
 
 # ===== 사내포털 유입 측정 =====
-GA4_ID = "G-VFLVE5CVHM"          # 자료 HTML에 심겨 있어야 하는 측정 ID
-ADD_UTM = True                    # False로 두면 UTM 부착 안 함
+ADD_UTM = True                     # False 로 두면 UTM 부착 안 함
 UTM_PARAMS = {
     "utm_source": "portal",
     "utm_medium": "widget",
@@ -59,10 +62,8 @@ def fetch(url, timeout=15):
 
 
 def add_utm(url):
-    """URL에 UTM 파라미터를 붙인다. 이미 있는 파라미터는 덮어쓰지 않는다.
-    경로에 공백 등이 섞여 있으면 인코딩해 링크가 깨지지 않게 한다."""
+    """URL 에 UTM 파라미터를 붙인다. 이미 있는 파라미터는 덮어쓰지 않는다."""
     parts = urlsplit(url)
-    # 이미 인코딩된 경로(%xx)는 그대로 두고, 공백 등 미인코딩 문자만 처리
     path = quote(parts.path, safe="/%:@!$&'()*+,;=~-._")
     q = dict(parse_qsl(parts.query, keep_blank_values=True))
     if ADD_UTM:
@@ -73,7 +74,7 @@ def add_utm(url):
 
 
 def get_sitemap_entries():
-    """sitemap에서 /contents/ 하위 글 목록을 (url, lastmod) 리스트로 반환."""
+    """sitemap 에서 /contents/ 하위 글 목록을 (url, lastmod) 리스트로 반환."""
     raw = fetch(SITEMAP_URL)
     root = ET.fromstring(raw)
     ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
@@ -93,7 +94,7 @@ def get_sitemap_entries():
 
 
 def slug_info(url):
-    """URL 슬러그를 디코딩해 (카테고리, 대략적 제목)을 추출."""
+    """URL 슬러그를 디코딩해 (카테고리, 대략적 제목) 추출. 제목을 못 가져올 때의 폴백."""
     slug = unquote(urlparse(url).path.rsplit("/", 1)[-1])
     slug = re.sub(r"-\d+$", "", slug)
     parts = slug.split("-", 1)
@@ -103,7 +104,7 @@ def slug_info(url):
 
 
 def fetch_page_title(url):
-    """글 페이지의 og:title 또는 <title>에서 정확한 제목을 가져옴. 실패 시 None."""
+    """글 페이지의 og:title 또는 <title> 에서 정확한 제목을 가져옴. 실패 시 None."""
     try:
         html = fetch(url).decode("utf-8", errors="ignore")
     except Exception:
@@ -112,7 +113,6 @@ def fetch_page_title(url):
 
 
 def extract_title_from_html(html):
-    """HTML 문자열에서 og:title 또는 <title> 추출."""
     m = re.search(r'<meta[^>]+property=["\']og:title["\'][^>]+content=["\']([^"\']+)["\']', html)
     if not m:
         m = re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:title["\']', html)
@@ -125,238 +125,23 @@ def extract_title_from_html(html):
     return title or None
 
 
-def git_last_commit_date(path):
-    """해당 경로의 마지막 커밋 날짜(ISO). 실패 시 빈 문자열."""
-    import subprocess
-    try:
-        out = subprocess.run(
-            ["git", "log", "-1", "--format=%cI", "--", path],
-            capture_output=True, text=True, timeout=20,
-        )
-        return out.stdout.strip()
-    except Exception:
-        return ""
-
-
-def git_first_commit_date(path):
-    """해당 경로가 처음 등록된 커밋 날짜(ISO). 실패 시 빈 문자열."""
-    import subprocess
-    try:
-        out = subprocess.run(
-            ["git", "log", "--reverse", "--format=%cI", "--", path],
-            capture_output=True, text=True, timeout=20,
-        )
-        lines = out.stdout.strip().splitlines()
-        return lines[0] if lines else ""
-    except Exception:
-        return ""
-
-
-def read_text(path):
-    try:
-        with open(path, encoding="utf-8", errors="ignore") as f:
-            return f.read()
-    except Exception:
-        return ""
-
-
-def make_tip_item(file_path, url, fallback_name):
-    """자료 파일 하나를 hub-news 항목으로 변환."""
-    title = extract_title_from_html(read_text(file_path))
-    date = git_first_commit_date(file_path)
-    return {
-        "category": TIP_CATEGORY,
-        "title": f"[{TIP_CATEGORY}] " + (title or fallback_name.replace("-", " ")),
-        "url": add_utm(url),
-        "date": date[:10] if date else "",
-        "_sort": date or "",
-        "_path": file_path,
-    }
-
-
-def warn_bad_path(rel):
-    """경로 구성요소에 앞뒤 공백이 있으면 경고 (URL 404의 흔한 원인)."""
-    for seg in rel.split("/"):
-        if seg != seg.strip():
-            print(f"WARNING: 경로에 공백이 있습니다 -> '{rel}' (세그먼트: '{seg}')", file=sys.stderr)
-            return True
-    return False
-
-
-def get_tip_items():
-    """AI 활용팁 자료 수집.
-    1순위: ai-tip-cards.json (활용팁 페이지 카드 목록 = 공식 소스)
-    폴백 : 카드 JSON이 없거나 깨졌으면 리포 스캔."""
-    if os.path.isfile(TIP_CARDS_FILE):
-        return get_tip_items_from_cards()
-    return get_tip_items_from_scan()
-
-
-def get_tip_items_from_cards():
-    """카드 JSON의 각 항목을 hub-news 항목으로 변환.
-
-    인식하는 키 (Super Body 스크립트와 동일):
-      url  : 외부 전체 주소 (노션 등) -> 그대로 사용
-      file : 저장소 내 파일 경로       (예: AI_Tip/gemini-hallucination.html)
-      path : file 의 구버전 이름        (하위 호환)
-      slug : 폴더명                     (예: excel-automation -> .../excel-automation/)
-    우선순위: url > file > path > slug
-    카드에 없는 파일(test.html 등)은 위젯에 노출되지 않음."""
-    try:
-        with open(TIP_CARDS_FILE, encoding="utf-8") as f:
-            cards = json.load(f)
-    except Exception as e:
-        print(f"WARNING: {TIP_CARDS_FILE} 파싱 실패({e}) -> 리포 스캔으로 폴백", file=sys.stderr)
-        return get_tip_items_from_scan()
-
-    if not isinstance(cards, list):
-        cards = cards.get("items", [])
-
-    items = []
-    for i, card in enumerate(cards, 1):
-        title = (card.get("title") or "").strip()
-        ext_url = (card.get("url") or "").strip()
-        ref = (card.get("file") or card.get("path") or card.get("slug") or "").strip().strip("/")
-
-        if not title:
-            print(f"WARNING: {i}번째 카드에 title 이 없어 건너뜁니다.", file=sys.stderr)
-            continue
-        if not ext_url and not ref:
-            print(f"WARNING: '{title}' 카드에 url/file/slug 가 없어 건너뜁니다. "
-                  f"(path 대신 file 을 쓰세요)", file=sys.stderr)
-            continue
-
-        if ext_url:
-            # 외부 링크 자료 (노션 등): 로컬 파일이 없으므로 GA4 검사 대상에서 제외
-            url, local, ref_for_date = ext_url, None, None
-        else:
-            warn_bad_path(ref)
-            # 확장자 판정은 대소문자 무시 (.HTML, .Html 도 파일로 인식)
-            if ref.lower().endswith((".html", ".htm")):
-                url = PAGES_BASE + ref
-                local = ref
-            else:
-                url = PAGES_BASE + ref + "/"
-                local = ref + "/index.html"
-            ref_for_date = ref
-
-            # 링크가 실제로 존재하는지 확인 (404 사전 경고)
-            if not os.path.exists(local):
-                print(f"WARNING: '{title}' -> '{local}' 파일이 없습니다. "
-                      f"링크가 404가 됩니다.", file=sys.stderr)
-
-        # 자료 등록일 = 해당 경로의 최초 커밋일. 경로를 못 찾으면 카드 JSON 변경일로 폴백
-        date = ""
-        if ref_for_date and os.path.exists(ref_for_date):
-            date = git_first_commit_date(ref_for_date)
-        if not date:
-            date = git_last_commit_date(TIP_CARDS_FILE)
-
-        items.append({
-            "category": TIP_CATEGORY,
-            "title": f"[{TIP_CATEGORY}] {title}",
-            "url": add_utm(url),
-            "date": date[:10] if date else "",
-            "_sort": date or "",
-            "_path": local if (local and os.path.isfile(local)) else None,
-        })
-        print(f"tip(card): {items[-1]['title']} -> {items[-1]['url']} ({items[-1]['date']})")
-
-    if not items:
-        print(f"WARNING: {TIP_CARDS_FILE} 에서 유효한 자료를 찾지 못했습니다. "
-              f"키 이름(url/file/slug)을 확인하세요.", file=sys.stderr)
-    return items
-
-
-def get_tip_items_from_scan():
-    """(폴백) 리포 스캔 방식.
-
-    A) 단일 HTML  : AI_Tip/자료명.html          -> /AI_Hub/AI_Tip/자료명.html
-    B) 폴더형 자료 : 폴더명/index.html           -> /AI_Hub/폴더명/
-       (이미지 등 부속 파일이 있어 폴더로 분리한 자료)
-    """
-    items = []
-
-    # A) TIP_DIRS 안의 *.html
-    for tdir in TIP_DIRS:
-        if not os.path.isdir(tdir):
-            continue
-        for name in sorted(os.listdir(tdir)):
-            if not name.lower().endswith(".html"):
-                continue
-            if name.startswith("_"):
-                # _template.html 처럼 밑줄로 시작하는 파일은 자료가 아님
-                continue
-            rel = f"{tdir}/{name}"
-            warn_bad_path(rel)
-            stem = name.rsplit(".", 1)[0]
-            items.append(make_tip_item(rel, PAGES_BASE + rel, stem))
-            print(f"tip(file): {items[-1]['title']} -> {items[-1]['url']}")
-
-    # B) index.html 을 가진 폴더 (TIP_DIRS 하위는 A에서 처리했으므로 제외)
-    for dirpath, dirnames, filenames in os.walk("."):
-        dirnames[:] = sorted(
-            d for d in dirnames if not d.startswith(".") and d not in SKIP_DIRS
-        )
-        rel_dir = os.path.relpath(dirpath, ".").replace(os.sep, "/")
-        if rel_dir == ".":
-            continue
-        if rel_dir.split("/")[0] in TIP_DIRS:
-            continue
-        if "index.html" not in filenames:
-            continue
-        warn_bad_path(rel_dir)
-        folder_name = rel_dir.rsplit("/", 1)[-1]
-        items.append(make_tip_item(
-            os.path.join(dirpath, "index.html"),
-            PAGES_BASE + rel_dir + "/",
-            folder_name,
-        ))
-        print(f"tip(dir) : {items[-1]['title']} -> {items[-1]['url']}")
-
-    return items
-
-
-def check_ga4(tip_items):
-    """자료 HTML에 GA4 태그가 들어있는지 검사. 없으면 경고만 출력(빌드는 계속)."""
-    missing = []
-    for it in tip_items:
-        path = it.get("_path")
-        if path and GA4_ID not in read_text(path):
-            missing.append(path)
-    if missing:
-        print("", file=sys.stderr)
-        print(f"WARNING: 아래 자료에 GA4 태그({GA4_ID})가 없습니다. 조회수가 집계되지 않습니다.",
-              file=sys.stderr)
-        for p in missing:
-            print(f"  - {p}", file=sys.stderr)
-        print("", file=sys.stderr)
-    else:
-        print(f"GA4: 모든 자료에 태그({GA4_ID}) 확인됨")
-    return missing
-
-
 def canonical_url(url):
     """UTM 등 쿼리를 뗀 순수 URL (최초 목격일 기록의 키)."""
     parts = urlsplit(url)
     return urlunsplit((parts.scheme, parts.netloc, parts.path, "", ""))
 
 
-def apply_first_seen(site_items, all_urls):
-    """사이트 글의 N 배지 판정용 날짜를 '작성일(최초 발견일)'로 교체.
+def apply_first_seen(items, all_urls):
+    """N 배지 판정용 날짜를 '작성일(최초 발견일)'로 교체.
 
-    sitemap의 lastmod는 수정일이라 작성일 기준 배지 판정에 쓸 수 없다.
-    대신 스크립트가 30분마다 돌며 sitemap "전체" 글을 FIRST_SEEN_FILE에 기록한다.
-    -> 새 글은 발행 후 30분 안에 발견되므로, 최초 발견일 = 사실상 작성일.
+    sitemap 의 lastmod 는 수정일이라 작성일 기준 배지 판정에 쓸 수 없다.
+    대신 이 스크립트가 30분마다 돌며 sitemap "전체" 글을 FIRST_SEEN_FILE 에 기록한다.
+    → 새 글은 발행 후 30분 안에 발견되므로, 최초 발견일 = 사실상 작성일.
 
-    - 기록에 있는 글: 기록된 작성일 사용 (이후 수정돼도 절대 안 바뀜)
-    - 기록에 없는 글: 오늘 기록 -> 작성 후 7일간 N 배지
-    - 기록 파일이 없는 최초 실행: 현재 sitemap의 모든 글을 '과거 글'로 시드
-      (이 시점 이전 글들의 실제 작성일은 알 수 없으므로 배지 제외)
-    * 순위 밖에 있던 옛 글이 나중에 상위권에 들어와도, 전체 글이 이미
-      등재돼 있으므로 새 글로 오인하지 않는다.
+    - 기록에 있는 글 : 기록된 작성일 사용 (이후 수정돼도 절대 안 바뀜)
+    - 기록에 없는 글 : 오늘 기록 → 작성 후 7일간 N 배지
+    - 기록 파일이 없는 최초 실행 : 현재 sitemap 의 모든 글을 '과거 글'로 시드
     * 정렬(_sort)은 계속 lastmod 기준이라 목록 순서는 그대로다.
-    * 활용팁 자료는 git 최초 커밋일(진짜 작성일)을 쓰므로 이 처리 대상이 아니다.
     """
     from datetime import datetime, timezone, timedelta
     kst = timezone(timedelta(hours=9))
@@ -372,7 +157,6 @@ def apply_first_seen(site_items, all_urls):
             print(f"WARNING: {FIRST_SEEN_FILE} 파싱 실패({e}) -> 새로 생성", file=sys.stderr)
             registry = {}
 
-    # sitemap 전체 글을 등재 (표시 여부와 무관하게 작성 시점 기록)
     for url in all_urls:
         key = canonical_url(url)
         if key in registry:
@@ -381,15 +165,15 @@ def apply_first_seen(site_items, all_urls):
         if not seeding:
             print(f"new: 처음 발견한 글 -> {key}")
 
-    # 표시할 글의 배지 판정 날짜를 작성일로 교체
-    for it in site_items:
+    for it in items:
         it["date"] = registry.get(canonical_url(it["url"]), it["date"])
 
     with open(FIRST_SEEN_FILE, "w", encoding="utf-8") as f:
         json.dump(registry, f, ensure_ascii=False, indent=2, sort_keys=True)
+
     if seeding:
         print(f"{FIRST_SEEN_FILE} 최초 생성: 기존 {len(registry)}건을 과거 글로 시드")
-    return site_items
+    return items
 
 
 def is_excluded(category, url):
@@ -397,47 +181,84 @@ def is_excluded(category, url):
     return any(k.lower() in text for k in EXCLUDE_KEYWORDS)
 
 
+def build_item(url, lastmod):
+    """sitemap 항목 하나를 hub-news 항목으로 변환. 제외 대상이면 None."""
+    slug_cat, rough_title = slug_info(url)
+    title = (fetch_page_title(url) if FETCH_TITLES else None) or rough_title
+
+    # 활용팁 판별: 노션 원본 제목의 "[활용팁] " 접두어
+    if TIP_PREFIX_RE.match(title):
+        category = TIP_CATEGORY
+    else:
+        category = slug_cat
+
+    if is_excluded(category, url):
+        print(f"skip (excluded): {url}")
+        return None
+
+    return {
+        "category": category,
+        "title": title,
+        "url": add_utm(url),
+        "date": lastmod[:10] if lastmod else "",
+        "_sort": lastmod or "",
+    }
+
+
+def pick(items, limit, reserve_tips):
+    """최신순 상위 limit 개. reserve_tips > 0 이면 활용팁 자리를 그만큼 보장."""
+    items = sorted(items, key=lambda it: it["_sort"], reverse=True)
+    if reserve_tips <= 0:
+        return items[:limit]
+
+    top = items[:limit]
+    have = sum(1 for it in top if it["category"] == TIP_CATEGORY)
+    need = reserve_tips - have
+    if need <= 0:
+        return top
+
+    spare = [it for it in items[limit:] if it["category"] == TIP_CATEGORY][:need]
+    if not spare:
+        return top
+    # 활용팁이 아닌 항목 중 가장 오래된 것부터 자리를 내준다
+    keep = [it for it in top if it["category"] == TIP_CATEGORY]
+    others = [it for it in top if it["category"] != TIP_CATEGORY]
+    others = others[:max(0, limit - len(keep) - len(spare))]
+    print(f"reserve: 활용팁 {len(spare)}건을 끌어올림")
+    return sorted(keep + spare + others, key=lambda it: it["_sort"], reverse=True)
+
+
 def main():
     entries = get_sitemap_entries()
     if not entries:
-        print("ERROR: sitemap에서 콘텐츠를 찾지 못했습니다.", file=sys.stderr)
+        print("ERROR: sitemap 에서 콘텐츠를 찾지 못했습니다.", file=sys.stderr)
         sys.exit(1)
-
     entries.sort(key=lambda e: e[1], reverse=True)
 
-    # 1) 허브 사이트 글 (sitemap 기준)
-    site_items = []
-    for url, lastmod in entries:
-        if len(site_items) >= MAX_ITEMS:
-            break
-        category, rough_title = slug_info(url)
-        if is_excluded(category, url):
-            print(f"skip (excluded): {url}")
-            continue
-        title = fetch_page_title(url) if FETCH_TITLES else None
-        site_items.append({
-            "category": category,
-            "title": title or rough_title,
-            "url": add_utm(url),
-            "date": lastmod[:10] if lastmod else "",
-            "_sort": lastmod or "",
-        })
-        print(f"site: [{category}] {site_items[-1]['title']} ({site_items[-1]['date']})")
+    # 제목을 가져와야 활용팁을 판별할 수 있으므로, 넉넉히 훑고 나서 자른다
+    scan_limit = MAX_ITEMS * 3
+    items = []
+    for url, lastmod in entries[:scan_limit]:
+        it = build_item(url, lastmod)
+        if it:
+            items.append(it)
+            print(f"item: [{it['category']}] {it['title']} ({it['date']})")
 
-    # 사이트 글의 배지 판정 날짜를 작성일(최초 발견일)로 교체 (sitemap 전체 등재)
-    site_items = apply_first_seen(site_items, [u for u, _ in entries])
+    tips = sum(1 for it in items if it["category"] == TIP_CATEGORY)
+    if tips == 0:
+        print("WARNING: '[활용팁] ' 로 시작하는 글을 sitemap 에서 찾지 못했습니다.\n"
+              "         노션 CONTENTS DB 의 제목에 접두어가 남아 있는지,\n"
+              "         해당 페이지가 Super 에 공개되어 sitemap 에 올라왔는지 확인하세요.",
+              file=sys.stderr)
+    else:
+        print(f"활용팁 {tips}건 확인")
 
-    # 2) AI 활용팁 자료 (리포 스캔)
-    tip_items = get_tip_items()
-    check_ga4(tip_items)
+    # 배지 판정 날짜를 작성일(최초 발견일)로 교체 (sitemap 전체 등재)
+    items = apply_first_seen(items, [u for u, _ in entries])
 
-    # 3) 병합 후 최신순 상위 N개
-    items = site_items + tip_items
-    items.sort(key=lambda it: it["_sort"], reverse=True)
-    items = items[:MAX_ITEMS]
+    items = pick(items, MAX_ITEMS, RESERVE_TIP_SLOTS)
     for it in items:
         it.pop("_sort", None)
-        it.pop("_path", None)
 
     from datetime import datetime, timezone, timedelta
     kst = timezone(timedelta(hours=9))
