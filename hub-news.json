@@ -1,11 +1,17 @@
 {
-  "updated": "2026-08-19T13:04:46+09:00",
+  "updated": "2026-08-19T13:58:53+09:00",
   "items": [
     {
       "category": "활용팁",
       "title": "[활용팁] Gemini 할루시네이션 저감 튜토리얼",
       "url": "https://daoukiwoom.ai/contents/%ed%99%9c%ec%9a%a9%ed%8c%81-gemini-%ed%95%a0%eb%a3%a8%ec%8b%9c%eb%84%a4%ec%9d%b4%ec%85%98-%ec%a0%80%ea%b0%90-%ed%8a%9c%ed%86%a0%eb%a6%ac%ec%96%bc?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
       "date": "2026-08-19"
+    },
+    {
+      "category": "노하우",
+      "title": "[노하우] [Google I/O 2026] Gemini Omni 업데이트 소식",
+      "url": "https://daoukiwoom.ai/contents/%eb%85%b8%ed%95%98%ec%9a%b0-google-io-2026-gemini-omni-%ec%97%85%eb%8d%b0%ec%9d%b4%ed%8a%b8-%ec%86%8c%ec%8b%9d?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
+      "date": "2026-01-01"
     },
     {
       "category": "노하우",
@@ -17,6 +23,12 @@
       "category": "노하우",
       "title": "[노하우] 프롬프트를 자산으로 만드는 법",
       "url": "https://daoukiwoom.ai/contents/%eb%85%b8%ed%95%98%ec%9a%b0-%ed%94%84%eb%a1%ac%ed%94%84%ed%8a%b8%eb%a5%bc-%ec%9e%90%ec%82%b0%ec%9c%bc%eb%a1%9c-%eb%a7%8c%eb%93%9c%eb%8a%94-%eb%b2%95?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
+      "date": "2026-01-01"
+    },
+    {
+      "category": "리포트",
+      "title": "[리포트] 2026년 5월호 | AI 에이전트: 자율 실행의 시대",
+      "url": "https://daoukiwoom.ai/contents/%eb%a6%ac%ed%8f%ac%ed%8a%b8-2026%eb%85%84-5%ec%9b%94%ed%98%b8-ai-%ec%97%90%ec%9d%b4%ec%a0%84%ed%8a%b8-%ec%9e%90%ec%9c%a8-%ec%8b%a4%ed%96%89%ec%9d%98-%ec%8b%9c%eb%8c%80?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
       "date": "2026-01-01"
     },
     {
@@ -35,18 +47,6 @@
       "category": "인사이트",
       "title": "[인사이트] AI 인재전쟁: 핵심 인재를 움직이는 것은 무엇인가",
       "url": "https://daoukiwoom.ai/contents/%ec%9d%b8%ec%82%ac%ec%9d%b4%ed%8a%b8-ai-%ec%9d%b8%ec%9e%ac%ec%a0%84%ec%9f%81-%ed%95%b5%ec%8b%ac-%ec%9d%b8%ec%9e%ac%eb%a5%bc-%ec%9b%80%ec%a7%81%ec%9d%b4%eb%8a%94-%ea%b2%83%ec%9d%80-%eb%ac%b4%ec%97%87%ec%9d%b8%ea%b0%80?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
-      "date": "2026-01-01"
-    },
-    {
-      "category": "인사이트",
-      "title": "[인사이트] '비용'에서 '자산'으로: AI 투자 적자를 끊어낼 토큰 이코노미",
-      "url": "https://daoukiwoom.ai/contents/%ec%9d%b8%ec%82%ac%ec%9d%b4%ed%8a%b8-%eb%b9%84%ec%9a%a9%ec%97%90%ec%84%9c-%ec%9e%90%ec%82%b0%ec%9c%bc%eb%a1%9c-ai-%ed%88%ac%ec%9e%90-%ec%a0%81%ec%9e%90%eb%a5%bc-%eb%81%8a%ec%96%b4%eb%82%bc-%ed%86%a0%ed%81%b0-%ec%9d%b4%ec%bd%94%eb%85%b8%eb%af%b8?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
-      "date": "2026-01-01"
-    },
-    {
-      "category": "노하우",
-      "title": "[노하우] 구글 Gemini Gem 활용 가이드",
-      "url": "https://daoukiwoom.ai/contents/%eb%85%b8%ed%95%98%ec%9a%b0-%ea%b5%ac%ea%b8%80-gemini-gem-%ed%99%9c%ec%9a%a9-%ea%b0%80%ec%9d%b4%eb%93%9c?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
       "date": "2026-01-01"
     }
   ]
