@@ -21,7 +21,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # 자료 폴더의 커밋 날짜를 읽기 위해 전체 히스토리 필요
+          # 커밋 후 git pull --rebase 가 안전하게 동작하도록 전체 히스토리 유지
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
