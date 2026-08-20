@@ -1,6 +1,12 @@
 {
-  "updated": "2026-08-20T16:14:21+09:00",
+  "updated": "2026-08-20T17:02:17+09:00",
   "items": [
+    {
+      "category": "ax",
+      "title": "[AX 피플] 업체당 1시간 걸리던 수탁사 보안점검, 5분 만에 끝내요",
+      "url": "https://daoukiwoom.ai/contents/ax-%ed%94%bc%ed%94%8c-%ec%97%85%ec%b2%b4%eb%8b%b9-1%ec%8b%9c%ea%b0%84-%ea%b1%b8%eb%a6%ac%eb%8d%98-%ec%88%98%ed%83%81%ec%82%ac-%eb%b3%b4%ec%95%88%ec%a0%90%ea%b2%80-5%eb%b6%84-%eb%a7%8c%ec%97%90-%eb%81%9d%eb%82%b4%ec%9a%94?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
+      "date": "2026-08-20"
+    },
     {
       "category": "활용팁",
       "title": "[활용팁] Gemini 할루시네이션 저감 튜토리얼",
@@ -42,12 +48,6 @@
       "title": "[인사이트] 국내 기업 AI 도입 동향: ‘사내 AI 전면 도입’에 속도를 내는 이유",
       "url": "https://daoukiwoom.ai/contents/%ec%9d%b8%ec%82%ac%ec%9d%b4%ed%8a%b8-%ea%b5%ad%eb%82%b4-%ea%b8%b0%ec%97%85-ai-%eb%8f%84%ec%9e%85-%eb%8f%99%ed%96%a5-%ec%82%ac%eb%82%b4-ai-%ec%a0%84%eb%a9%b4-%eb%8f%84%ec%9e%85%ec%97%90-%ec%86%8d%eb%8f%84%eb%a5%bc-%eb%82%b4%eb%8a%94-%ec%9d%b4%ec%9c%a0?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
       "date": "2026-06-18"
-    },
-    {
-      "category": "노하우",
-      "title": "[노하우] [Google I/O 2026] Gemini Omni 업데이트 소식",
-      "url": "https://daoukiwoom.ai/contents/%eb%85%b8%ed%95%98%ec%9a%b0-google-io-2026-gemini-omni-%ec%97%85%eb%8d%b0%ec%9d%b4%ed%8a%b8-%ec%86%8c%ec%8b%9d?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
-      "date": "2026-06-11"
     }
   ]
 }
