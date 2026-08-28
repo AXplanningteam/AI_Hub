@@ -1,6 +1,12 @@
 {
-  "updated": "2026-08-28T10:12:04+09:00",
+  "updated": "2026-08-28T22:01:01+09:00",
   "items": [
+    {
+      "category": "리포트",
+      "title": "[리포트] 2026년 8월호 | AI 연결의 확장: 실행과 협업의 고도화",
+      "url": "https://daoukiwoom.ai/contents/%eb%a6%ac%ed%8f%ac%ed%8a%b8-2026%eb%85%84-8%ec%9b%94%ed%98%b8-ai-%ec%97%b0%ea%b2%b0%ec%9d%98-%ed%99%95%ec%9e%a5-%ec%8b%a4%ed%96%89%ea%b3%bc-%ed%98%91%ec%97%85%ec%9d%98-%ea%b3%a0%eb%8f%84%ed%99%94?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
+      "date": "2026-08-28"
+    },
     {
       "category": "인사이트",
       "title": "[인사이트] 7대 원칙 위에서 금융 AI 가이드라인이 실제로 바꾼 것",
@@ -42,12 +48,6 @@
       "title": "[인사이트] Anthropic Mythos 수출 통제와 소버린 AI의 중요성 부각",
       "url": "https://daoukiwoom.ai/contents/%ec%9d%b8%ec%82%ac%ec%9d%b4%ed%8a%b8-anthropic-mythos-%ec%88%98%ec%b6%9c-%ed%86%b5%ec%a0%9c%ec%99%80-%ec%86%8c%eb%b2%84%eb%a6%b0-ai%ec%9d%98-%ec%a4%91%ec%9a%94%ec%84%b1-%eb%b6%80%ea%b0%81?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
       "date": "2026-07-02"
-    },
-    {
-      "category": "리포트",
-      "title": "[리포트] 2026년 6월호 | 에이전틱 진화: 데이터 통합과 선제적 예측",
-      "url": "https://daoukiwoom.ai/contents/%eb%a6%ac%ed%8f%ac%ed%8a%b8-2026%eb%85%84-6%ec%9b%94%ed%98%b8-%ec%97%90%ec%9d%b4%ec%a0%84%ed%8b%b1-%ec%a7%84%ed%99%94-%eb%8d%b0%ec%9d%b4%ed%84%b0-%ed%86%b5%ed%95%a9%ea%b3%bc-%ec%84%a0%ec%a0%9c%ec%a0%81-%ec%98%88%ec%b8%a1?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub_news",
-      "date": "2026-06-25"
     }
   ]
 }
