@@ -68,7 +68,8 @@ ADD_UTM = True
 UTM_PARAMS = {
     "utm_source": "portal",
     "utm_medium": "widget",
-    "utm_campaign": "ai_hub_news",
+    "utm_campaign": "ai_hub",
+    "utm_content": "news_list",
 }
 
 HEADERS = {"User-Agent": "DaouKiwoom-AXTeam-HubWidget/1.0 (internal)"}
