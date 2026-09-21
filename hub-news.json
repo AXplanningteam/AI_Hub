@@ -1,6 +1,12 @@
 {
-  "updated": "2026-09-21T08:39:58+09:00",
+  "updated": "2026-09-21T11:06:27+09:00",
   "items": [
+    {
+      "category": "ax",
+      "title": "[AX 피플] 클라우드에 못 올리는 데이터, 로컬에서 자동화하는 법",
+      "url": "https://daoukiwoom.ai/contents/ax-%ed%94%bc%ed%94%8c-%ed%81%b4%eb%9d%bc%ec%9a%b0%eb%93%9c%ec%97%90-%eb%aa%bb-%ec%98%ac%eb%a6%ac%eb%8a%94-%eb%8d%b0%ec%9d%b4%ed%84%b0-%eb%a1%9c%ec%bb%ac%ec%97%90%ec%84%9c-%ec%9e%90%eb%8f%99%ed%99%94%ed%95%98%eb%8a%94-%eb%b2%95?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
+      "date": "2026-09-21"
+    },
     {
       "category": "ax",
       "title": "[AX 피플] 시간을 버는 건 실력이 아니라 맡기는 방법입니다",
@@ -42,12 +48,6 @@
       "title": "[활용팁] Gemini 할루시네이션 저감 튜토리얼",
       "url": "https://daoukiwoom.ai/contents/%ed%99%9c%ec%9a%a9%ed%8c%81-gemini-%ed%95%a0%eb%a3%a8%ec%8b%9c%eb%84%a4%ec%9d%b4%ec%85%98-%ec%a0%80%ea%b0%90-%ed%8a%9c%ed%86%a0%eb%a6%ac%ec%96%bc?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
       "date": "2026-08-14"
-    },
-    {
-      "category": "인사이트",
-      "title": "[인사이트] AI 인재전쟁: 핵심 인재를 움직이는 것은 무엇인가",
-      "url": "https://daoukiwoom.ai/contents/%ec%9d%b8%ec%82%ac%ec%9d%b4%ed%8a%b8-ai-%ec%9d%b8%ec%9e%ac%ec%a0%84%ec%9f%81-%ed%95%b5%ec%8b%ac-%ec%9d%b8%ec%9e%ac%eb%a5%bc-%ec%9b%80%ec%a7%81%ec%9d%b4%eb%8a%94-%ea%b2%83%ec%9d%80-%eb%ac%b4%ec%97%87%ec%9d%b8%ea%b0%80?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
-      "date": "2026-08-12"
     }
   ]
 }
