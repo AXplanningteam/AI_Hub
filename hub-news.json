@@ -1,6 +1,12 @@
 {
-  "updated": "2026-09-30T16:38:39+09:00",
+  "updated": "2026-09-30T23:22:21+09:00",
   "items": [
+    {
+      "category": "리포트",
+      "title": "[리포트] 2026년 9월호 | 실행형 AI의 확장: 연동 표준화와 승인 통제 체계",
+      "url": "https://daoukiwoom.ai/contents/%eb%a6%ac%ed%8f%ac%ed%8a%b8-2026%eb%85%84-9%ec%9b%94%ed%98%b8-%ec%8b%a4%ed%96%89%ed%98%95-ai%ec%9d%98-%ed%99%95%ec%9e%a5-%ec%97%b0%eb%8f%99-%ed%91%9c%ec%a4%80%ed%99%94%ec%99%80-%ec%8a%b9%ec%9d%b8-%ed%86%b5%ec%a0%9c-%ec%b2%b4%ea%b3%84?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
+      "date": "2026-09-30"
+    },
     {
       "category": "인사이트",
       "title": "[인사이트] 원칙에서 검증으로, 금융 AI 평가의 등장",
@@ -42,12 +48,6 @@
       "title": "[인사이트] 7대 원칙 위에서 금융 AI 가이드라인이 실제로 바꾼 것",
       "url": "https://daoukiwoom.ai/contents/%ec%9d%b8%ec%82%ac%ec%9d%b4%ed%8a%b8-7%eb%8c%80-%ec%9b%90%ec%b9%99-%ec%9c%84%ec%97%90%ec%84%9c-%ea%b8%88%ec%9c%b5-ai-%ea%b0%80%ec%9d%b4%eb%93%9c%eb%9d%bc%ec%9d%b8%ec%9d%b4-%ec%8b%a4%ec%a0%9c%eb%a1%9c-%eb%b0%94%ea%be%bc-%ea%b2%83?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
       "date": "2026-08-24"
-    },
-    {
-      "category": "ax",
-      "title": "[AX 피플] 업체당 1시간 걸리던 수탁사 보안점검, 5분 만에 끝내요",
-      "url": "https://daoukiwoom.ai/contents/ax-%ed%94%bc%ed%94%8c-%ec%97%85%ec%b2%b4%eb%8b%b9-1%ec%8b%9c%ea%b0%84-%ea%b1%b8%eb%a6%ac%eb%8d%98-%ec%88%98%ed%83%81%ec%82%ac-%eb%b3%b4%ec%95%88%ec%a0%90%ea%b2%80-5%eb%b6%84-%eb%a7%8c%ec%97%90-%eb%81%9d%eb%82%b4%ec%9a%94?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
-      "date": "2026-08-20"
     }
   ]
 }
