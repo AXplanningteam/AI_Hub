@@ -6,26 +6,28 @@ GitHub Actions 에서 30분마다 실행됨. 표준 라이브러리만 사용 (�
 [2026-08 구조 변경]
 AI 활용팁 자료도 노션 CONTENTS 데이터베이스에 등록되어 daoukiwoom.ai 안에서
 열리도록 바뀌었다. 따라서 리포의 HTML 을 스캔하지 않고 sitemap 하나만 본다.
-활용팁 판별은 노션 원본 제목의 "[활용팁] " 접두어로 한다.
 
-[2026-08 날짜/정렬 수정] ★ 이번 수정의 핵심
-구버전은 활용팁 자료의 날짜를 'git 최초 커밋일'로 잡아 항상 최신으로 올려줬다.
-sitemap 기반으로 바꾸면서 그 기준이 사라지고, 대신 두 가지가 어긋났다.
+[2026-08 날짜/정렬]
+'유효 날짜(effective date)' 를 쓴다.
+  ① 글 페이지에 렌더링된 발행일   ← 가장 정확
+  ② news-first-seen.json 의 최초 발견일 (시드값 2026-01-01 제외)
+  ③ sitemap 의 lastmod            ← 폴백
 
-  (1) 표시 날짜 : 시드로 넣은 2026-01-01 이 그대로 노출됨
-                 → 기존 글이 전부 "2026-01-01" 로 보임
-  (2) 정렬     : sitemap 의 lastmod 는 노션 '마지막 수정 시각'이라
-                 오래된 글을 손대면 최신글로 올라오고, Super 가 모든 글에
-                 같은 값을 주면 정렬 자체가 무의미해짐
+[2026-10-07 수정] ★ 이번 변경
+(1) 제외 판단을 '주소'가 아니라 '제목'으로 바꿨다.
+    노션에서 「콘텐츠 템플릿」 페이지를 복제해 글을 쓰면 제목만 바뀌고
+    슬러그는 '콘텐츠-템플릿-N' 으로 굳는다. Super 는 제목을 바꿔도 URL 을
+    따라 바꾸지 않는다. 그래서 주소에 '템플릿'이 들어간다는 이유로
+    멀쩡한 글이 조용히 사라졌다.
+      실제 사고: 2026-10-01 「[AX 피플] 일주일은 걸리던 시장 조사…」
+                 주소가 /contents/콘텐츠-템플릿-3 이라 위젯에서 누락
+    또한 '포함'이 아니라 '시작'으로 바꿨다. 포함으로 두면
+    「[활용팁] 프롬프트 템플릿 만들기」 같은 정상 글도 걸린다.
 
-그래서 '유효 날짜(effective date)' 개념을 도입했다.
-
-  · 최초 발견일이 기록돼 있고 시드값이 아니면  → 그 날짜 사용 (진짜 발행일)
-  · 시드값(2026-01-01)이거나 기록이 없으면     → lastmod 로 폴백 (구버전과 동일)
-
-이렇게 하면 기존 글은 구버전과 똑같이 보이고, 앞으로 올라오는 글은
-발행일 기준으로 정확히 정렬된다. news-first-seen.json 의 시드 날짜를
-실제 발행일로 손수 채워 넣으면 기존 글도 즉시 정확해진다.
+(2) 카테고리를 제목의 대괄호에서 뽑는다.
+    슬러그에서 뽑으면 위와 같은 글이 'ax' 나 '콘텐츠' 로 잡힌다.
+    제목이 「[AX 피플] …」 이므로 거기서 꺼내는 편이 정확하다.
+    이 변경만 되돌리려면 category_of() 를 slug_cat 반환으로 바꾸면 된다.
 
 진단:  python update_news.py --diag     (파일을 쓰지 않고 상태만 출력)
 """
@@ -46,22 +48,27 @@ FIRST_SEEN_FILE = "news-first-seen.json"
 
 MAX_ITEMS = 8          # JSON 에 담을 최대 글 수 (위젯은 이 중 5개 표시)
 SCAN_MULTIPLIER = 4    # 제목을 가져올 후보 수 = MAX_ITEMS * 이 값
-FETCH_TITLES = True    # 활용팁 판별이 제목 접두어에 의존하므로 True 유지 필수
+FETCH_TITLES = True    # 제외·카테고리 판단이 제목에 의존하므로 True 유지 필수
 
 TIP_CATEGORY = "활용팁"
 TIP_PREFIX_RE = re.compile(r"^\s*\[\s*활용팁\s*\]\s*")
 
+# 제목 맨 앞 대괄호에서 카테고리를 꺼낸다.  "[AX 피플] 제목" -> "AX 피플"
+TITLE_CAT_RE = re.compile(r"^\s*\[\s*([^\]]+?)\s*\]")
+
 RESERVE_TIP_SLOTS = 0  # 활용팁 자리를 최소 몇 개 보장할지. 0 이면 순수 최신순
 
-# 위젯에서 뺄 키워드 (카테고리·URL·제목 어디든 걸리면 제외)
-# '템플릿' — CONTENTS DB 의 "콘텐츠 템플릿" 같은 작성용 껍데기 페이지 제거
-EXCLUDE_KEYWORDS = ["아카데미", "academy", "템플릿", "template"]
+# ── 위젯에서 뺄 것 ────────────────────────────────────────────────
+# ① 카테고리로 제외 (제목 대괄호 또는 슬러그 첫 조각)
+EXCLUDE_CATEGORIES = ["아카데미", "academy", "AI 아카데미"]
+
+# ② 작성용 껍데기 페이지 — '제목'으로 판단한다. 주소로 판단하면 안 된다.
+#    '포함'이 아니라 '시작'이어야 정상 글이 걸리지 않는다.
+EXCLUDE_TITLE_PREFIXES = ["콘텐츠 템플릿", "콘텐츠-템플릿", "템플릿"]
 
 SEED_DATE = "2026-01-01"   # 기록 파일이 없을 때 기존 글에 붙였던 '과거 글' 표식
 
 # 글 페이지 HTML 에서 발행일을 직접 긁어올지 여부 (가장 정확한 소스)
-# 노션 CONTENTS DB 의 날짜 속성이 페이지에 렌더링되면 그 값을 쓴다.
-# 못 찾으면 기록 → lastmod 순으로 자동 폴백하므로 켜 둬도 안전하다.
 SCRAPE_PAGE_DATE = True
 
 ADD_UTM = True
@@ -174,23 +181,14 @@ def save_registry(registry):
 
 
 def effective_date(url, lastmod, registry):
-    """★ 표시·정렬에 쓰는 날짜.
-
-    우선순위
-      ① 글 페이지에 렌더링된 발행일   ← 가장 정확 (SCRAPE_PAGE_DATE)
-      ② news-first-seen.json 의 최초 발견일 (시드값 2026-01-01 제외)
-      ③ sitemap 의 lastmod            ← 구버전과 동일한 폴백
-
-    ①을 못 찾아도 ②③으로 자동으로 내려가므로 안전하다.
-    ②를 실제 발행일로 손수 채워 넣으면 그 글부터 즉시 정확해진다.
-    """
-    page = fetch_page_date(url)                    # ① 페이지에 박힌 발행일
+    """표시·정렬에 쓰는 날짜.  ① 페이지 발행일 → ② 최초 발견일 → ③ lastmod"""
+    page = fetch_page_date(url)
     if page:
         return page
-    fs = registry.get(canonical_url(url), "")      # ② 최초 발견일 (시드 제외)
+    fs = registry.get(canonical_url(url), "")
     if fs and fs != SEED_DATE:
         return fs
-    return lastmod[:10] if lastmod else ""         # ③ sitemap 수정일
+    return lastmod[:10] if lastmod else ""
 
 
 def order_key(url, lastmod, registry):
@@ -201,6 +199,7 @@ def order_key(url, lastmod, registry):
 # ------------------------------------------------------------------ 제목/항목
 
 def slug_info(url):
+    """슬러그에서 (카테고리, 대략적 제목). 제목을 못 가져올 때의 폴백."""
     slug = unquote(urlparse(url).path.rsplit("/", 1)[-1])
     slug = re.sub(r"-\d+$", "", slug)
     parts = slug.split("-", 1)
@@ -229,28 +228,22 @@ _MONTHS = {m: i for i, m in enumerate(
 
 def extract_date_from_html(html):
     """글 페이지에서 발행일(YYYY-MM-DD)을 찾는다. 못 찾으면 None.
-
-    오탐을 줄이려고 '날짜를 담을 만한 자리'만 순서대로 본다.
-    본문 아무 데나 있는 숫자는 보지 않는다.
-    """
-    # (1) 표준 메타 태그
+    오탐을 줄이려고 '날짜를 담을 만한 자리'만 순서대로 본다."""
     m = re.search(r'<meta[^>]+property=["\']article:published_time["\'][^>]+'
                   r'content=["\'](\d{4}-\d{2}-\d{2})', html)
     if m:
         return m.group(1)
 
-    # (2) <time datetime="...">
     m = re.search(r'<time[^>]+datetime=["\'](\d{4}-\d{2}-\d{2})', html)
     if m:
         return m.group(1)
 
-    # (3) 노션 날짜 속성이 렌더링된 영역 안에서만 탐색
     blocks = re.findall(
         r'class=["\'][^"\']*notion-(?:property__date|page__date|'
         r'collection-card__property--date)[^"\']*["\'][^>]*>(.{0,300})',
         html, re.S)
     for b in blocks:
-        b = re.sub(r"<[^>]+>", " ", b)          # 내부 태그 제거 후 텍스트만 본다
+        b = re.sub(r"<[^>]+>", " ", b)
         m = re.search(r'(\d{4})[-./년]\s*(\d{1,2})[-./월]\s*(\d{1,2})\s*일?', b)
         if m:
             y, mo, d = (int(x) for x in m.groups())
@@ -286,22 +279,34 @@ def fetch_page_date(url):
     return extract_date_from_html(fetch_page(url))
 
 
-def is_excluded(text):
-    t = (text or "").lower()
-    return any(k.lower() in t for k in EXCLUDE_KEYWORDS)
+def category_of(title, slug_cat):
+    """카테고리는 제목의 대괄호에서. 없으면 슬러그 첫 조각으로 폴백.
+    (슬러그는 템플릿 복제 등으로 제목과 어긋날 수 있어 신뢰도가 낮다)"""
+    m = TITLE_CAT_RE.match(title or "")
+    return m.group(1).strip() if m else slug_cat
+
+
+def is_excluded(url, title, category):
+    """제외 판단. 주소가 아니라 제목·카테고리로 한다."""
+    cat = (category or "").strip().lower()
+    if cat in [c.lower() for c in EXCLUDE_CATEGORIES]:
+        return True
+
+    slug_first = unquote(urlparse(url).path.rsplit("/", 1)[-1]).split("-")[0].lower()
+    if slug_first in [c.lower() for c in EXCLUDE_CATEGORIES]:
+        return True
+
+    t = (title or "").strip()
+    return any(t.startswith(p) for p in EXCLUDE_TITLE_PREFIXES)
 
 
 def build_item(url, lastmod, registry):
-    if is_excluded(unquote(url)):                 # 제목 조회 전에 URL 로 1차 제외
-        print(f"skip (excluded/url): {unquote(urlparse(url).path)}")
-        return None
-
     slug_cat, rough_title = slug_info(url)
     title = (fetch_page_title(url) if FETCH_TITLES else None) or rough_title
-    category = TIP_CATEGORY if TIP_PREFIX_RE.match(title) else slug_cat
+    category = category_of(title, slug_cat)
 
-    if is_excluded(category) or is_excluded(title):
-        print(f"skip (excluded): {title}")
+    if is_excluded(url, title, category):
+        print(f"skip (excluded): {title}  <- {unquote(urlparse(url).path)}")
         return None
 
     return {
@@ -341,13 +346,21 @@ def diagnose(entries, registry):
     print(f"lastmod 서로 다른 값  : {distinct}")
     print(f"lastmod 비어 있는 항목: {sum(1 for m in mods if not m)}")
     if len(entries) > 1 and distinct <= 1:
-        print("WARNING: 모든 글의 lastmod 가 동일합니다 → lastmod 만으로는 최신순 불가.\n"
-              "         news-first-seen.json 의 시드 날짜를 실제 발행일로 채우세요.",
+        print("WARNING: 모든 글의 lastmod 가 동일합니다 → lastmod 만으로는 최신순 불가.",
               file=sys.stderr)
 
-    seeded = [u for u, _ in entries
-              if registry.get(canonical_url(u)) == SEED_DATE]
+    seeded = [u for u, _ in entries if registry.get(canonical_url(u)) == SEED_DATE]
     print(f"시드({SEED_DATE}) 상태 : {len(seeded)}건  ← 이 글들은 lastmod 로 폴백합니다")
+
+    # sitemap 에 없는데 기록에만 남은 키 (슬러그 변경·삭제의 흔적)
+    live = {canonical_url(u) for u, _ in entries}
+    orphan = [k for k in registry if k not in live]
+    if orphan:
+        print(f"\n기록에만 남은 글    : {len(orphan)}건 (슬러그 변경·삭제 추정)")
+        for k in orphan[:5]:
+            print(f"  - {unquote(urlparse(k).path)}")
+        if len(orphan) > 5:
+            print(f"  … 외 {len(orphan) - 5}건")
 
     ranked = sorted(entries, key=lambda e: order_key(e[0], e[1], registry), reverse=True)
     print("\n--- 유효 날짜 기준 상위 10 ---")
