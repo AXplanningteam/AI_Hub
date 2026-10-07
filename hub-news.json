@@ -1,6 +1,12 @@
 {
-  "updated": "2026-10-07T12:04:35+09:00",
+  "updated": "2026-10-07T15:32:03+09:00",
   "items": [
+    {
+      "category": "AX 피플",
+      "title": "[AX 피플] 일주일은 걸리던 시장 조사, 이제 3일이면 충분해요",
+      "url": "https://daoukiwoom.ai/contents/ax-%ed%94%bc%ed%94%8c-%ec%9d%bc%ec%a3%bc%ec%9d%bc%ec%9d%80-%ea%b1%b8%eb%a6%ac%eb%8d%98-%ec%8b%9c%ec%9e%a5-%ec%a1%b0%ec%82%ac-%ec%9d%b4%ec%a0%9c-3%ec%9d%bc%ec%9d%b4%eb%a9%b4-%ec%b6%a9%eb%b6%84%ed%95%b4%ec%9a%94?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
+      "date": "2026-10-01"
+    },
     {
       "category": "리포트",
       "title": "[리포트] 2026년 9월호 | 실행형 AI의 확장: 연동 표준화와 승인 통제 체계",
@@ -14,13 +20,13 @@
       "date": "2026-09-23"
     },
     {
-      "category": "ax",
+      "category": "AX 피플",
       "title": "[AX 피플] 클라우드에 못 올리는 데이터, 로컬에서 자동화하는 법",
       "url": "https://daoukiwoom.ai/contents/ax-%ed%94%bc%ed%94%8c-%ed%81%b4%eb%9d%bc%ec%9a%b0%eb%93%9c%ec%97%90-%eb%aa%bb-%ec%98%ac%eb%a6%ac%eb%8a%94-%eb%8d%b0%ec%9d%b4%ed%84%b0-%eb%a1%9c%ec%bb%ac%ec%97%90%ec%84%9c-%ec%9e%90%eb%8f%99%ed%99%94%ed%95%98%eb%8a%94-%eb%b2%95?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
       "date": "2026-09-21"
     },
     {
-      "category": "ax",
+      "category": "AX 피플",
       "title": "[AX 피플] 시간을 버는 건 실력이 아니라 맡기는 방법입니다",
       "url": "https://daoukiwoom.ai/contents/ax-%ed%94%bc%ed%94%8c-%ec%8b%9c%ea%b0%84%ec%9d%84-%eb%b2%84%eb%8a%94-%ea%b1%b4-%ec%8b%a4%eb%a0%a5%ec%9d%b4-%ec%95%84%eb%8b%88%eb%9d%bc-%eb%a7%a1%ea%b8%b0%eb%8a%94-%eb%b0%a9%eb%b2%95%ec%9e%85%eb%8b%88%eb%8b%a4?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
       "date": "2026-09-14"
@@ -32,7 +38,7 @@
       "date": "2026-09-07"
     },
     {
-      "category": "ax",
+      "category": "AX 피플",
       "title": "[AX 피플] 반복되는 고객 문의 답변, 이제 버튼 하나로 자동 발송돼요",
       "url": "https://daoukiwoom.ai/contents/ax-%ed%94%bc%ed%94%8c-%eb%b0%98%eb%b3%b5%eb%90%98%eb%8a%94-%ea%b3%a0%ea%b0%9d-%eb%ac%b8%ec%9d%98-%eb%8b%b5%eb%b3%80-%ec%9d%b4%ec%a0%9c-%eb%b2%84%ed%8a%bc-%ed%95%98%eb%82%98%eb%a1%9c-%ec%9e%90%eb%8f%99-%eb%b0%9c%ec%86%a1%eb%8f%bc%ec%9a%94?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
       "date": "2026-09-03"
@@ -42,12 +48,6 @@
       "title": "[리포트] 2026년 8월호 | AI 연결의 확장: 실행과 협업의 고도화",
       "url": "https://daoukiwoom.ai/contents/%eb%a6%ac%ed%8f%ac%ed%8a%b8-2026%eb%85%84-8%ec%9b%94%ed%98%b8-ai-%ec%97%b0%ea%b2%b0%ec%9d%98-%ed%99%95%ec%9e%a5-%ec%8b%a4%ed%96%89%ea%b3%bc-%ed%98%91%ec%97%85%ec%9d%98-%ea%b3%a0%eb%8f%84%ed%99%94?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
       "date": "2026-08-28"
-    },
-    {
-      "category": "인사이트",
-      "title": "[인사이트] 7대 원칙 위에서 금융 AI 가이드라인이 실제로 바꾼 것",
-      "url": "https://daoukiwoom.ai/contents/%ec%9d%b8%ec%82%ac%ec%9d%b4%ed%8a%b8-7%eb%8c%80-%ec%9b%90%ec%b9%99-%ec%9c%84%ec%97%90%ec%84%9c-%ea%b8%88%ec%9c%b5-ai-%ea%b0%80%ec%9d%b4%eb%93%9c%eb%9d%bc%ec%9d%b8%ec%9d%b4-%ec%8b%a4%ec%a0%9c%eb%a1%9c-%eb%b0%94%ea%be%bc-%ea%b2%83?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
-      "date": "2026-08-24"
     }
   ]
 }
