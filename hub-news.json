@@ -1,6 +1,12 @@
 {
-  "updated": "2026-10-26T15:31:53+09:00",
+  "updated": "2026-10-26T22:41:32+09:00",
   "items": [
+    {
+      "category": "행사",
+      "title": "[행사] 2026 다우키움 AI 활용 경진대회 현장 후기",
+      "url": "https://daoukiwoom.ai/contents/%ed%96%89%ec%82%ac-2026-%eb%8b%a4%ec%9a%b0%ed%82%a4%ec%9b%80-ai-%ed%99%9c%ec%9a%a9-%ea%b2%bd%ec%a7%84%eb%8c%80%ed%9a%8c-%ed%98%84%ec%9e%a5-%ed%9b%84%ea%b8%b0?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
+      "date": "2026-10-26"
+    },
     {
       "category": "AX 피플",
       "title": "[AX 피플] 서비스 10여 개 일일 점검, 매일 새벽 알아서 돌아가요",
@@ -42,12 +48,6 @@
       "title": "[AX 피플] 시간을 버는 건 실력이 아니라 맡기는 방법입니다",
       "url": "https://daoukiwoom.ai/contents/ax-%ed%94%bc%ed%94%8c-%ec%8b%9c%ea%b0%84%ec%9d%84-%eb%b2%84%eb%8a%94-%ea%b1%b4-%ec%8b%a4%eb%a0%a5%ec%9d%b4-%ec%95%84%eb%8b%88%eb%9d%bc-%eb%a7%a1%ea%b8%b0%eb%8a%94-%eb%b0%a9%eb%b2%95%ec%9e%85%eb%8b%88%eb%8b%a4?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
       "date": "2026-09-14"
-    },
-    {
-      "category": "인사이트",
-      "title": "[인사이트] AI 시대, 왜 FDE가 뜨고 있을까? : 기업의 맥락을 읽고 AI를 실제 업무로 옮기는 사람",
-      "url": "https://daoukiwoom.ai/contents/%ec%9d%b8%ec%82%ac%ec%9d%b4%ed%8a%b8-ai-%ec%8b%9c%eb%8c%80-%ec%99%9c-fde%ea%b0%80-%eb%9c%a8%ea%b3%a0-%ec%9e%88%ec%9d%84%ea%b9%8c-%ea%b8%b0%ec%97%85%ec%9d%98-%eb%a7%a5%eb%9d%bd%ec%9d%84-%ec%9d%bd%ea%b3%a0-ai%eb%a5%bc-%ec%8b%a4%ec%a0%9c-%ec%97%85%eb%ac%b4%eb%a1%9c-%ec%98%ae%ea%b8%b0%eb%8a%94-%ec%82%ac%eb%9e%8c?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
-      "date": "2026-09-07"
     }
   ]
 }
