@@ -1,6 +1,12 @@
 {
-  "updated": "2026-11-05T16:05:41+09:00",
+  "updated": "2026-11-06T00:40:05+09:00",
   "items": [
+    {
+      "category": "인사이트",
+      "title": "[인사이트] '차단'에서 '검증'으로: 금융권 AI 서비스 보안의 다음 과제",
+      "url": "https://daoukiwoom.ai/contents/%ec%9d%b8%ec%82%ac%ec%9d%b4%ed%8a%b8-%ec%b0%a8%eb%8b%a8%ec%97%90%ec%84%9c-%ea%b2%80%ec%a6%9d%ec%9c%bc%eb%a1%9c-%ea%b8%88%ec%9c%b5%ea%b6%8c-ai-%ec%84%9c%eb%b9%84%ec%8a%a4-%eb%b3%b4%ec%95%88%ec%9d%98-%eb%8b%a4%ec%9d%8c-%ea%b3%bc%ec%a0%9c?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
+      "date": "2026-11-05"
+    },
     {
       "category": "리포트",
       "title": "[리포트] 2026년 10월호 | AI 서비스 경쟁의 새로운 기준, 사용 진입 장벽 최소화",
@@ -42,12 +48,6 @@
       "title": "[리포트] 2026년 9월호 | 실행형 AI의 확장: 연동 표준화와 승인 통제 체계",
       "url": "https://daoukiwoom.ai/contents/%eb%a6%ac%ed%8f%ac%ed%8a%b8-2026%eb%85%84-9%ec%9b%94%ed%98%b8-%ec%8b%a4%ed%96%89%ed%98%95-ai%ec%9d%98-%ed%99%95%ec%9e%a5-%ec%97%b0%eb%8f%99-%ed%91%9c%ec%a4%80%ed%99%94%ec%99%80-%ec%8a%b9%ec%9d%b8-%ed%86%b5%ec%a0%9c-%ec%b2%b4%ea%b3%84?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
       "date": "2026-09-30"
-    },
-    {
-      "category": "인사이트",
-      "title": "[인사이트] 원칙에서 검증으로, 금융 AI 평가의 등장",
-      "url": "https://daoukiwoom.ai/contents/%ec%9d%b8%ec%82%ac%ec%9d%b4%ed%8a%b8-%ec%9b%90%ec%b9%99%ec%97%90%ec%84%9c-%ea%b2%80%ec%a6%9d%ec%9c%bc%eb%a1%9c-%ea%b8%88%ec%9c%b5-ai-%ed%8f%89%ea%b0%80%ec%9d%98-%eb%93%b1%ec%9e%a5?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
-      "date": "2026-09-23"
     }
   ]
 }
