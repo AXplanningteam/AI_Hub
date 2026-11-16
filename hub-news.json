@@ -1,6 +1,12 @@
 {
-  "updated": "2026-11-16T10:12:16+09:00",
+  "updated": "2026-11-16T17:07:49+09:00",
   "items": [
+    {
+      "category": "AX 피플",
+      "title": "[AX 피플]한 달 걸리던 디자인 규칙 정리를 이틀만에 끝내요",
+      "url": "https://daoukiwoom.ai/contents/ax-%ed%94%bc%ed%94%8c%ed%95%9c-%eb%8b%ac-%ea%b1%b8%eb%a6%ac%eb%8d%98-%eb%94%94%ec%9e%90%ec%9d%b8-%ea%b7%9c%ec%b9%99-%ec%a0%95%eb%a6%ac%eb%a5%bc-%ec%9d%b4%ed%8b%80%eb%a7%8c%ec%97%90-%eb%81%9d%eb%82%b4%ec%9a%94?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
+      "date": "2026-11-16"
+    },
     {
       "category": "인사이트",
       "title": "[인사이트] '차단'에서 '검증'으로: 금융권 AI 서비스 보안의 다음 과제",
@@ -42,12 +48,6 @@
       "title": "[AX 피플] 일주일은 걸리던 시장 조사, 이제 3일이면 충분해요",
       "url": "https://daoukiwoom.ai/contents/ax-%ed%94%bc%ed%94%8c-%ec%9d%bc%ec%a3%bc%ec%9d%bc%ec%9d%80-%ea%b1%b8%eb%a6%ac%eb%8d%98-%ec%8b%9c%ec%9e%a5-%ec%a1%b0%ec%82%ac-%ec%9d%b4%ec%a0%9c-3%ec%9d%bc%ec%9d%b4%eb%a9%b4-%ec%b6%a9%eb%b6%84%ed%95%b4%ec%9a%94?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
       "date": "2026-10-01"
-    },
-    {
-      "category": "리포트",
-      "title": "[리포트] 2026년 9월호 | 실행형 AI의 확장: 연동 표준화와 승인 통제 체계",
-      "url": "https://daoukiwoom.ai/contents/%eb%a6%ac%ed%8f%ac%ed%8a%b8-2026%eb%85%84-9%ec%9b%94%ed%98%b8-%ec%8b%a4%ed%96%89%ed%98%95-ai%ec%9d%98-%ed%99%95%ec%9e%a5-%ec%97%b0%eb%8f%99-%ed%91%9c%ec%a4%80%ed%99%94%ec%99%80-%ec%8a%b9%ec%9d%b8-%ed%86%b5%ec%a0%9c-%ec%b2%b4%ea%b3%84?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
-      "date": "2026-09-30"
     }
   ]
 }
