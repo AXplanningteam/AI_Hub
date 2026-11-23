@@ -1,9 +1,15 @@
 {
-  "updated": "2026-11-23T08:01:57+09:00",
+  "updated": "2026-11-23T12:51:09+09:00",
   "items": [
     {
+      "category": "AX 피플 | 키움투자자산운용",
+      "title": "[AX 피플 | 키움투자자산운용] AI를 만들어 주다가, 만드는 법을 알려 주기로 했다",
+      "url": "https://daoukiwoom.ai/contents/ax-%ed%94%bc%ed%94%8c-%ed%82%a4%ec%9b%80%ed%88%ac%ec%9e%90%ec%9e%90%ec%82%b0%ec%9a%b4%ec%9a%a9-ai%eb%a5%bc-%eb%a7%8c%eb%93%a4%ec%96%b4-%ec%a3%bc%eb%8b%a4%ea%b0%80-%eb%a7%8c%eb%93%9c%eb%8a%94-%eb%b2%95%ec%9d%84-%ec%95%8c%eb%a0%a4-%ec%a3%bc%ea%b8%b0%eb%a1%9c-%ed%96%88%eb%8b%a4?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
+      "date": "2026-11-23"
+    },
+    {
       "category": "AX 피플",
-      "title": "[AX 피플]한 달 걸리던 디자인 규칙 정리를 이틀만에 끝내요",
+      "title": "[AX 피플] 한 달 걸리던 디자인 규칙 정리를 이틀만에 끝내요",
       "url": "https://daoukiwoom.ai/contents/ax-%ed%94%bc%ed%94%8c%ed%95%9c-%eb%8b%ac-%ea%b1%b8%eb%a6%ac%eb%8d%98-%eb%94%94%ec%9e%90%ec%9d%b8-%ea%b7%9c%ec%b9%99-%ec%a0%95%eb%a6%ac%eb%a5%bc-%ec%9d%b4%ed%8b%80%eb%a7%8c%ec%97%90-%eb%81%9d%eb%82%b4%ec%9a%94?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
       "date": "2026-11-16"
     },
@@ -42,12 +48,6 @@
       "title": "[AX 피플] 이슈 등록하는 시간이 75% 줄었어요",
       "url": "https://daoukiwoom.ai/contents/ax-%ed%94%bc%ed%94%8c-%ec%9d%b4%ec%8a%88-%eb%93%b1%eb%a1%9d%ed%95%98%eb%8a%94-%ec%8b%9c%ea%b0%84%ec%9d%b4-75-%ec%a4%84%ec%97%88%ec%96%b4%ec%9a%94?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
       "date": "2026-10-07"
-    },
-    {
-      "category": "AX 피플",
-      "title": "[AX 피플] 일주일은 걸리던 시장 조사, 이제 3일이면 충분해요",
-      "url": "https://daoukiwoom.ai/contents/ax-%ed%94%bc%ed%94%8c-%ec%9d%bc%ec%a3%bc%ec%9d%bc%ec%9d%80-%ea%b1%b8%eb%a6%ac%eb%8d%98-%ec%8b%9c%ec%9e%a5-%ec%a1%b0%ec%82%ac-%ec%9d%b4%ec%a0%9c-3%ec%9d%bc%ec%9d%b4%eb%a9%b4-%ec%b6%a9%eb%b6%84%ed%95%b4%ec%9a%94?utm_source=portal&utm_medium=widget&utm_campaign=ai_hub&utm_content=news_list",
-      "date": "2026-10-01"
     }
   ]
 }
